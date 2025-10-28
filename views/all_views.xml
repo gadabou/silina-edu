@@ -93,10 +93,24 @@
                         </group>
                         <notebook>
                             <page string="Étudiants">
-                                <field name="student_ids"/>
+                                <field name="student_ids">
+                                    <list string="Étudiants">
+                                        <field name="registration_number"/>
+                                        <field name="name"/>
+                                        <field name="gender"/>
+                                        <field name="date_of_birth"/>
+                                        <field name="state"/>
+                                    </list>
+                                </field>
                             </page>
                             <page string="Matières">
-                                <field name="subject_assignment_ids"/>
+                                <field name="subject_assignment_ids">
+                                    <list string="Affectations">
+                                        <field name="subject_id"/>
+                                        <field name="teacher_id"/>
+                                        <field name="hours_per_week"/>
+                                    </list>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -247,10 +261,23 @@
                         </group>
                         <notebook>
                             <page string="Matières">
-                                <field name="subject_ids"/>
+                                <field name="subject_ids">
+                                    <list string="Matières">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="subject_type"/>
+                                        <field name="coefficient"/>
+                                    </list>
+                                </field>
                             </page>
                             <page string="Affectations">
-                                <field name="subject_assignment_ids"/>
+                                <field name="subject_assignment_ids">
+                                    <list string="Affectations">
+                                        <field name="classroom_id"/>
+                                        <field name="subject_id"/>
+                                        <field name="hours_per_week"/>
+                                    </list>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -333,10 +360,25 @@
                                 </group>
                             </page>
                             <page string="Parents/Tuteurs">
-                                <field name="parent_ids"/>
+                                <field name="parent_ids">
+                                    <list string="Parents/Tuteurs">
+                                        <field name="name"/>
+                                        <field name="relation"/>
+                                        <field name="email"/>
+                                        <field name="phone"/>
+                                        <field name="is_financial_responsible"/>
+                                    </list>
+                                </field>
                             </page>
                             <page string="Documents">
-                                <field name="document_ids"/>
+                                <field name="document_ids">
+                                    <list string="Documents">
+                                        <field name="name"/>
+                                        <field name="document_type"/>
+                                        <field name="date"/>
+                                        <field name="is_verified"/>
+                                    </list>
+                                </field>
                             </page>
                             <page string="Frais Scolaires">
                                 <group>
@@ -344,7 +386,17 @@
                                     <field name="total_paid"/>
                                     <field name="total_due"/>
                                 </group>
-                                <field name="fee_ids"/>
+                                <field name="fee_ids">
+                                    <list string="Frais">
+                                        <field name="name"/>
+                                        <field name="fee_type_id"/>
+                                        <field name="amount"/>
+                                        <field name="amount_paid"/>
+                                        <field name="amount_due"/>
+                                        <field name="due_date"/>
+                                        <field name="state"/>
+                                    </list>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -407,7 +459,16 @@
                         </group>
                         <notebook>
                             <page string="Étudiants">
-                                <field name="student_ids"/>
+                                <field name="student_ids">
+                                    <list string="Étudiants">
+                                        <field name="registration_number"/>
+                                        <field name="name"/>
+                                        <field name="gender"/>
+                                        <field name="date_of_birth"/>
+                                        <field name="classroom_id"/>
+                                        <field name="state"/>
+                                    </list>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -529,10 +590,25 @@
                         </group>
                         <notebook>
                             <page string="Classes">
-                                <field name="classroom_ids"/>
+                                <field name="classroom_ids">
+                                    <list string="Classes">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="level_id"/>
+                                        <field name="main_teacher_id"/>
+                                        <field name="student_count"/>
+                                    </list>
+                                </field>
                             </page>
                             <page string="Matières">
-                                <field name="subject_ids"/>
+                                <field name="subject_ids">
+                                    <list string="Matières">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="subject_type"/>
+                                        <field name="coefficient"/>
+                                    </list>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -735,10 +811,27 @@
                         </group>
                         <notebook>
                             <page string="Tranches" invisible="installment_count &lt;= 1">
-                                <field name="installment_ids"/>
+                                <field name="installment_ids">
+                                    <list string="Tranches">
+                                        <field name="name"/>
+                                        <field name="amount"/>
+                                        <field name="amount_paid"/>
+                                        <field name="amount_due"/>
+                                        <field name="due_date"/>
+                                        <field name="state"/>
+                                    </list>
+                                </field>
                             </page>
                             <page string="Paiements">
-                                <field name="payment_ids"/>
+                                <field name="payment_ids">
+                                    <list string="Paiements">
+                                        <field name="name"/>
+                                        <field name="amount"/>
+                                        <field name="payment_date"/>
+                                        <field name="payment_method"/>
+                                        <field name="state"/>
+                                    </list>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
