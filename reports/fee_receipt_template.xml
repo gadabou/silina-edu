@@ -58,7 +58,7 @@
                                     <tfoot>
                                         <tr class="table-active">
                                             <td><strong>TOTAL</strong></td>
-                                            <td class="text-right"><strong t-field="payment.amount" t-options='{"widget": "monetary", "display_currency": payment.currency_id}'/></strong></td>
+                                            <td class="text-right"><strong t-field="payment.amount" t-options='{"widget": "monetary", "display_currency": payment.currency_id}'/></td>
                                         </tr>
                                     </tfoot>
                                 </table>

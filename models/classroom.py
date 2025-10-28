@@ -114,7 +114,7 @@ class Classroom(models.Model):
             'name': _('Étudiants'),
             'type': 'ir.actions.act_window',
             'res_model': 'silina.student',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('classroom_id', '=', self.id)],
             'context': {
                 'default_classroom_id': self.id,

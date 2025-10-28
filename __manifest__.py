@@ -19,8 +19,8 @@
         * Intégration avec la facturation pour les frais scolaires
         * Intégration avec Point de Vente pour articles scolaires
     """,
-    'author': 'SILINA',
-    'website': 'https://www.silina.com',
+    'author': 'Djakpo GADO',
+    'website': 'https://www.silinatech.com',
     'license': 'LGPL-3',
     'depends': [
         'base',
@@ -40,8 +40,8 @@
         'data/academic_data.xml',
 
         # Views - All views in one file
-        'views/academic_year_views.xml',
         'views/all_views.xml',
+        'views/academic_year_views.xml',
 
         # Wizards
         'wizards/bulk_student_promotion_views.xml',

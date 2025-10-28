@@ -8,19 +8,19 @@ class ResPartner(models.Model):
     is_parent = fields.Boolean(string='Est un parent')
     is_teacher = fields.Boolean(string='Est un enseignant')
 
-    student_id = fields.Many2one(
+    silina_student_id = fields.Many2one(
         'silina.student',
         string='Étudiant lié',
         help="Étudiant lié à ce contact"
     )
 
-    parent_id = fields.Many2one(
+    silina_parent_id = fields.Many2one(
         'silina.parent',
         string='Parent lié',
         help="Parent lié à ce contact"
     )
 
-    teacher_id = fields.Many2one(
+    silina_teacher_id = fields.Many2one(
         'silina.teacher',
         string='Enseignant lié',
         help="Enseignant lié à ce contact"

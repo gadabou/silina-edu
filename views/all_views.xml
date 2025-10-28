@@ -9,14 +9,14 @@
             <field name="name">silina.level.tree</field>
             <field name="model">silina.level</field>
             <field name="arch" type="xml">
-                <tree string="Niveaux">
+                <list string="Niveaux">
                     <field name="sequence" widget="handle"/>
                     <field name="name"/>
                     <field name="code"/>
                     <field name="degree"/>
                     <field name="next_level_id"/>
                     <field name="classroom_count"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -47,7 +47,7 @@
         <record id="action_level" model="ir.actions.act_window">
             <field name="name">Niveaux</field>
             <field name="res_model">silina.level</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Classroom Views -->
@@ -55,7 +55,7 @@
             <field name="name">silina.classroom.tree</field>
             <field name="model">silina.classroom</field>
             <field name="arch" type="xml">
-                <tree string="Classes">
+                <list string="Classes">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="academic_year_id"/>
@@ -63,7 +63,7 @@
                     <field name="main_teacher_id"/>
                     <field name="student_count"/>
                     <field name="capacity"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -111,7 +111,7 @@
         <record id="action_classroom" model="ir.actions.act_window">
             <field name="name">Classes</field>
             <field name="res_model">silina.classroom</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Subject Views -->
@@ -119,13 +119,13 @@
             <field name="name">silina.subject.tree</field>
             <field name="model">silina.subject</field>
             <field name="arch" type="xml">
-                <tree string="Matières">
+                <list string="Matières">
                     <field name="sequence" widget="handle"/>
                     <field name="name"/>
                     <field name="code"/>
                     <field name="subject_type"/>
                     <field name="coefficient"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -156,7 +156,7 @@
         <record id="action_subject" model="ir.actions.act_window">
             <field name="name">Matières</field>
             <field name="res_model">silina.subject</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Subject Assignment Views -->
@@ -164,13 +164,13 @@
             <field name="name">silina.subject.assignment.tree</field>
             <field name="model">silina.subject.assignment</field>
             <field name="arch" type="xml">
-                <tree string="Affectations">
+                <list string="Affectations">
                     <field name="classroom_id"/>
                     <field name="subject_id"/>
                     <field name="teacher_id"/>
                     <field name="academic_year_id"/>
                     <field name="hours_per_week"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -199,7 +199,7 @@
         <record id="action_subject_assignment" model="ir.actions.act_window">
             <field name="name">Affectations Matières</field>
             <field name="res_model">silina.subject.assignment</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Teacher Views -->
@@ -207,7 +207,7 @@
             <field name="name">silina.teacher.tree</field>
             <field name="model">silina.teacher</field>
             <field name="arch" type="xml">
-                <tree string="Enseignants">
+                <list string="Enseignants">
                     <field name="teacher_code"/>
                     <field name="name"/>
                     <field name="email"/>
@@ -215,7 +215,7 @@
                     <field name="specialization"/>
                     <field name="classroom_count"/>
                     <field name="state"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -265,7 +265,7 @@
         <record id="action_teacher" model="ir.actions.act_window">
             <field name="name">Enseignants</field>
             <field name="res_model">silina.teacher</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Student Views - Version simplifiée -->
@@ -273,7 +273,7 @@
             <field name="name">silina.student.tree</field>
             <field name="model">silina.student</field>
             <field name="arch" type="xml">
-                <tree string="Étudiants">
+                <list string="Étudiants">
                     <field name="registration_number"/>
                     <field name="name"/>
                     <field name="gender"/>
@@ -281,7 +281,7 @@
                     <field name="classroom_id"/>
                     <field name="academic_year_id"/>
                     <field name="state"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -359,7 +359,7 @@
         <record id="action_student" model="ir.actions.act_window">
             <field name="name">Étudiants</field>
             <field name="res_model">silina.student</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Parent Views -->
@@ -367,14 +367,14 @@
             <field name="name">silina.parent.tree</field>
             <field name="model">silina.parent</field>
             <field name="arch" type="xml">
-                <tree string="Parents/Tuteurs">
+                <list string="Parents/Tuteurs">
                     <field name="name"/>
                     <field name="relation"/>
                     <field name="email"/>
                     <field name="phone"/>
                     <field name="student_count"/>
                     <field name="is_financial_responsible"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -422,7 +422,7 @@
         <record id="action_parent" model="ir.actions.act_window">
             <field name="name">Parents/Tuteurs</field>
             <field name="res_model">silina.parent</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Student Document Views -->
@@ -430,13 +430,13 @@
             <field name="name">silina.student.document.tree</field>
             <field name="model">silina.student.document</field>
             <field name="arch" type="xml">
-                <tree string="Documents">
+                <list string="Documents">
                     <field name="name"/>
                     <field name="student_id"/>
                     <field name="document_type"/>
                     <field name="date"/>
                     <field name="is_verified"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -479,7 +479,7 @@
         <record id="action_student_document" model="ir.actions.act_window">
             <field name="name">Documents Étudiants</field>
             <field name="res_model">silina.student.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Exam Views -->
@@ -487,7 +487,7 @@
             <field name="name">silina.exam.tree</field>
             <field name="model">silina.exam</field>
             <field name="arch" type="xml">
-                <tree string="Examens">
+                <list string="Examens">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="exam_type"/>
@@ -496,7 +496,7 @@
                     <field name="date_end"/>
                     <field name="result_count"/>
                     <field name="state"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -547,7 +547,7 @@
         <record id="action_exam" model="ir.actions.act_window">
             <field name="name">Examens</field>
             <field name="res_model">silina.exam</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Exam Result Views -->
@@ -555,7 +555,7 @@
             <field name="name">silina.exam.result.tree</field>
             <field name="model">silina.exam.result</field>
             <field name="arch" type="xml">
-                <tree string="Résultats" editable="bottom">
+                <list string="Résultats" editable="bottom">
                     <field name="exam_id"/>
                     <field name="student_id"/>
                     <field name="subject_id"/>
@@ -566,7 +566,7 @@
                     <field name="grade"/>
                     <field name="is_passed"/>
                     <field name="state"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -610,7 +610,7 @@
         <record id="action_exam_result" model="ir.actions.act_window">
             <field name="name">Résultats d'Examens</field>
             <field name="res_model">silina.exam.result</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Exam Result Summary -->
@@ -618,7 +618,7 @@
             <field name="name">silina.exam.result.summary.tree</field>
             <field name="model">silina.exam.result.summary</field>
             <field name="arch" type="xml">
-                <tree string="Résumés">
+                <list string="Résumés">
                     <field name="exam_id"/>
                     <field name="student_id"/>
                     <field name="classroom_id"/>
@@ -627,14 +627,14 @@
                     <field name="grade"/>
                     <field name="rank"/>
                     <field name="is_passed"/>
-                </tree>
+                </list>
             </field>
         </record>
 
         <record id="action_exam_result_summary" model="ir.actions.act_window">
             <field name="name">Résumés d'Examens</field>
             <field name="res_model">silina.exam.result.summary</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Fee Type Views -->
@@ -642,7 +642,7 @@
             <field name="name">silina.fee.type.tree</field>
             <field name="model">silina.fee.type</field>
             <field name="arch" type="xml">
-                <tree string="Types de Frais">
+                <list string="Types de Frais">
                     <field name="sequence" widget="handle"/>
                     <field name="name"/>
                     <field name="code"/>
@@ -650,7 +650,7 @@
                     <field name="amount"/>
                     <field name="is_mandatory"/>
                     <field name="allow_installment"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -683,7 +683,7 @@
         <record id="action_fee_type" model="ir.actions.act_window">
             <field name="name">Types de Frais</field>
             <field name="res_model">silina.fee.type</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Student Fee Views -->
@@ -691,7 +691,7 @@
             <field name="name">silina.student.fee.tree</field>
             <field name="model">silina.student.fee</field>
             <field name="arch" type="xml">
-                <tree string="Frais Étudiants">
+                <list string="Frais Étudiants">
                     <field name="name"/>
                     <field name="student_id"/>
                     <field name="fee_type_id"/>
@@ -701,7 +701,7 @@
                     <field name="amount_due"/>
                     <field name="due_date"/>
                     <field name="state"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -753,7 +753,7 @@
         <record id="action_student_fee" model="ir.actions.act_window">
             <field name="name">Frais Étudiants</field>
             <field name="res_model">silina.student.fee</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Fee Payment Views -->
@@ -761,7 +761,7 @@
             <field name="name">silina.fee.payment.tree</field>
             <field name="model">silina.fee.payment</field>
             <field name="arch" type="xml">
-                <tree string="Paiements">
+                <list string="Paiements">
                     <field name="name"/>
                     <field name="student_id"/>
                     <field name="student_fee_id"/>
@@ -769,7 +769,7 @@
                     <field name="payment_date"/>
                     <field name="payment_method"/>
                     <field name="state"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -813,7 +813,7 @@
         <record id="action_fee_payment" model="ir.actions.act_window">
             <field name="name">Paiements</field>
             <field name="res_model">silina.fee.payment</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
         <!-- Wizard Actions -->

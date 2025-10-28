@@ -150,7 +150,7 @@ class Exam(models.Model):
             'name': _('Résultats d\'examen'),
             'type': 'ir.actions.act_window',
             'res_model': 'silina.exam.result',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('exam_id', '=', self.id)],
             'context': {
                 'default_exam_id': self.id,

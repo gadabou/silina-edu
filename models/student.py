@@ -288,7 +288,7 @@ class Student(models.Model):
             'name': _('Frais Scolaires'),
             'type': 'ir.actions.act_window',
             'res_model': 'silina.student.fee',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {'default_student_id': self.id}
         }
@@ -299,7 +299,7 @@ class Student(models.Model):
             'name': _('Paiements'),
             'type': 'ir.actions.act_window',
             'res_model': 'silina.fee.payment',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {'default_student_id': self.id}
         }

@@ -1,4 +1,5 @@
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class Parent(models.Model):
@@ -105,7 +106,7 @@ class Parent(models.Model):
             'name': _('Étudiants'),
             'type': 'ir.actions.act_window',
             'res_model': 'silina.student',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('parent_ids', 'in', self.ids)],
         }
 

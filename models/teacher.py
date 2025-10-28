@@ -170,7 +170,7 @@ class Teacher(models.Model):
             'name': _('Classes'),
             'type': 'ir.actions.act_window',
             'res_model': 'silina.classroom',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', classrooms.ids)],
         }
 
@@ -180,7 +180,7 @@ class Teacher(models.Model):
             'name': _('Affectations'),
             'type': 'ir.actions.act_window',
             'res_model': 'silina.subject.assignment',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('teacher_id', '=', self.id)],
             'context': {'default_teacher_id': self.id}
         }
