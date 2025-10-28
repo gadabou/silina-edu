@@ -52,9 +52,6 @@
         'reports/report_card_template.xml',
         'reports/fee_receipt_template.xml',
         'reports/student_list_template.xml',
-
-        # Menus (must be last)
-        'views/menu_views.xml',
     ],
     'demo': [],
     'assets': {

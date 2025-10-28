@@ -838,5 +838,163 @@
             <field name="target">new</field>
         </record>
 
+        <!-- MENUS -->
+
+        <!-- Menu Principal -->
+        <menuitem id="menu_silina_edu_root"
+            name="SILINA-EDU"
+            sequence="10"
+            web_icon="silina_edu,static/description/icon.png"/>
+
+        <!-- Configuration -->
+        <menuitem id="menu_silina_edu_configuration"
+            name="Configuration"
+            parent="menu_silina_edu_root"
+            sequence="100"/>
+
+        <menuitem id="menu_academic_year"
+            name="Années Scolaires"
+            parent="menu_silina_edu_configuration"
+            action="action_academic_year"
+            sequence="1"/>
+
+        <menuitem id="menu_level"
+            name="Niveaux"
+            parent="menu_silina_edu_configuration"
+            action="action_level"
+            sequence="2"/>
+
+        <menuitem id="menu_subject"
+            name="Matières"
+            parent="menu_silina_edu_configuration"
+            action="action_subject"
+            sequence="3"/>
+
+        <menuitem id="menu_fee_type"
+            name="Types de Frais"
+            parent="menu_silina_edu_configuration"
+            action="action_fee_type"
+            sequence="4"/>
+
+        <!-- Gestion Académique -->
+        <menuitem id="menu_silina_edu_academic"
+            name="Académique"
+            parent="menu_silina_edu_root"
+            sequence="10"/>
+
+        <menuitem id="menu_classroom"
+            name="Classes"
+            parent="menu_silina_edu_academic"
+            action="action_classroom"
+            sequence="1"/>
+
+        <menuitem id="menu_subject_assignment"
+            name="Affectations Matières"
+            parent="menu_silina_edu_academic"
+            action="action_subject_assignment"
+            sequence="2"/>
+
+        <menuitem id="menu_exam"
+            name="Examens"
+            parent="menu_silina_edu_academic"
+            action="action_exam"
+            sequence="3"/>
+
+        <menuitem id="menu_exam_result"
+            name="Résultats d'Examens"
+            parent="menu_silina_edu_academic"
+            action="action_exam_result"
+            sequence="4"/>
+
+        <!-- Étudiants -->
+        <menuitem id="menu_silina_edu_students"
+            name="Étudiants"
+            parent="menu_silina_edu_root"
+            sequence="20"/>
+
+        <menuitem id="menu_student"
+            name="Étudiants"
+            parent="menu_silina_edu_students"
+            action="action_student"
+            sequence="1"/>
+
+        <menuitem id="menu_parent"
+            name="Parents/Tuteurs"
+            parent="menu_silina_edu_students"
+            action="action_parent"
+            sequence="2"/>
+
+        <menuitem id="menu_student_document"
+            name="Documents"
+            parent="menu_silina_edu_students"
+            action="action_student_document"
+            sequence="3"/>
+
+        <!-- Personnel -->
+        <menuitem id="menu_silina_edu_staff"
+            name="Personnel"
+            parent="menu_silina_edu_root"
+            sequence="30"/>
+
+        <menuitem id="menu_teacher"
+            name="Enseignants"
+            parent="menu_silina_edu_staff"
+            action="action_teacher"
+            sequence="1"/>
+
+        <!-- Frais et Paiements -->
+        <menuitem id="menu_silina_edu_fees"
+            name="Frais et Paiements"
+            parent="menu_silina_edu_root"
+            sequence="40"/>
+
+        <menuitem id="menu_student_fee"
+            name="Frais Étudiants"
+            parent="menu_silina_edu_fees"
+            action="action_student_fee"
+            sequence="1"/>
+
+        <menuitem id="menu_fee_payment"
+            name="Paiements"
+            parent="menu_silina_edu_fees"
+            action="action_fee_payment"
+            sequence="2"/>
+
+        <!-- Rapports -->
+        <menuitem id="menu_silina_edu_reports"
+            name="Rapports"
+            parent="menu_silina_edu_root"
+            sequence="50"/>
+
+        <menuitem id="menu_report_generate_report_card"
+            name="Générer Bulletins de Notes"
+            parent="menu_silina_edu_reports"
+            action="action_generate_report_card_wizard"
+            sequence="1"/>
+
+        <menuitem id="menu_report_exam_summary"
+            name="Résumés d'Examens"
+            parent="menu_silina_edu_reports"
+            action="action_exam_result_summary"
+            sequence="2"/>
+
+        <!-- Outils -->
+        <menuitem id="menu_silina_edu_tools"
+            name="Outils"
+            parent="menu_silina_edu_root"
+            sequence="60"/>
+
+        <menuitem id="menu_bulk_promotion"
+            name="Passage en Masse"
+            parent="menu_silina_edu_tools"
+            action="action_bulk_student_promotion_wizard"
+            sequence="1"/>
+
+        <menuitem id="menu_generate_fees"
+            name="Générer Frais en Masse"
+            parent="menu_silina_edu_tools"
+            action="action_generate_student_fees_wizard"
+            sequence="2"/>
+
     </data>
 </odoo>
