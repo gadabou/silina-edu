@@ -1,4 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vues déjà définies dans all_views.xml -->
+    <data>
+    <!-- Vue tree pour parent_ids -->
+    <record id="view_silina_parent_tree_for_parent_ids" model="ir.ui.view">
+        <field name="name">silina.parent.tree.for.parent_ids</field>
+        <field name="model">silina.parent</field>
+        <field name="arch" type="xml">
+            <list string="Nom" editable="bottom">
+                <field name="name"/>
+                <field name="relation"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="is_financial_responsible"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue tree pour document_ids -->
+    <record id="view_silina_student_document_tree_for_document_ids" model="ir.ui.view">
+        <field name="name">silina.student.document.tree.for.document_ids</field>
+        <field name="model">silina.student.document</field>
+        <field name="arch" type="xml">
+            <list string="Nom" editable="bottom">
+                <field name="name"/>
+                <field name="document_type"/>
+                <field name="date"/>
+                <field name="is_verified"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue tree pour fee_ids -->
+    <record id="view_silina_student_fee_tree_for_fee_ids" model="ir.ui.view">
+        <field name="name">silina.student.fee.tree.for.fee_ids</field>
+        <field name="model">silina.student.fee</field>
+        <field name="arch" type="xml">
+            <list string="Nom" editable="bottom">
+                <field name="name"/>
+                <field name="fee_type_id"/>
+                <field name="amount"/>
+                <field name="amount_paid"/>
+                <field name="amount_due"/>
+                <field name="due_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+
+
+        <!-- Student Views -->
+        <record id="view_student_tree" model="ir.ui.view">
+            <field name="name">silina.student.tree</field>
+            <field name="model">silina.student</field>
+            <field name="arch" type="xml">
+                <list string="Étudiants">
+                    <field name="registration_number"/>
+                    <field name="name"/>
+                    <field name="gender"/>
+                    <field name="date_of_birth"/>
+                    <field name="classroom_id"/>
+                    <field name="academic_year_id"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_student_form" model="ir.ui.view">
+            <field name="name">silina.student.form</field>
+            <field name="model">silina.student</field>
+            <field name="arch" type="xml">
+                <form string="Étudiant">
+                    <header>
+                        <button name="action_enroll" string="Inscrire" type="object" invisible="state != 'draft'"/>
+                        <button name="action_promote" string="Admettre" type="object" invisible="state != 'enrolled'"/>
+                        <button name="action_generate_report_card" string="Bulletin de Notes" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <field name="image_1920" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                            <div><field name="registration_number"/></div>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="first_name"/>
+                                <field name="last_name"/>
+                                <field name="gender"/>
+                                <field name="date_of_birth"/>
+                                <field name="age"/>
+                            </group>
+                            <group>
+                                <field name="academic_year_id"/>
+                                <field name="classroom_id"/>
+                                <field name="level_id"/>
+                                <field name="enrollment_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Informations de contact">
+                                <group>
+                                    <group>
+                                        <field name="email"/>
+                                        <field name="phone"/>
+                                        <field name="mobile"/>
+                                    </group>
+                                    <group>
+                                        <field name="street"/>
+                                        <field name="city"/>
+                                        <field name="country_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Parents/Tuteurs">
+                                <field name="parent_ids" widget="many2many" context="{'tree_view_ref': 'silina_edu.view_silina_parent_tree_for_parent_ids'}"/>
+                            </page>
+                            <page string="Documents">
+                                <field name="document_ids" widget="one2many" context="{'tree_view_ref': 'silina_edu.view_silina_student_document_tree_for_document_ids'}"/>
+                            </page>
+                            <page string="Frais Scolaires">
+                                <group>
+                                    <field name="total_fees"/>
+                                    <field name="total_paid"/>
+                                    <field name="total_due"/>
+                                </group>
+                                <field name="fee_ids" widget="one2many" context="{'tree_view_ref': 'silina_edu.view_silina_student_fee_tree_for_fee_ids'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_student" model="ir.actions.act_window">
+            <field name="name">Étudiants</field>
+            <field name="res_model">silina.student</field>
+            <field name="view_mode">list,form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Action pour créer en mode modal -->
+        <record id="action_student_create" model="ir.actions.act_window">
+            <field name="name">Nouvel Étudiant</field>
+            <field name="res_model">silina.student</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
 </odoo>

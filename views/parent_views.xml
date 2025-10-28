@@ -1,4 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vues déjà définies dans all_views.xml -->
+    <data>
+    <!-- Vue tree pour student_ids -->
+    <record id="view_silina_student_tree_for_student_ids" model="ir.ui.view">
+        <field name="name">silina.student.tree.for.student_ids</field>
+        <field name="model">silina.student</field>
+        <field name="arch" type="xml">
+            <list string="Matricule" editable="bottom">
+                <field name="registration_number"/>
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="date_of_birth"/>
+                <field name="classroom_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+
+
+        <!-- Parent Views -->
+        <record id="view_parent_tree" model="ir.ui.view">
+            <field name="name">silina.parent.tree</field>
+            <field name="model">silina.parent</field>
+            <field name="arch" type="xml">
+                <list string="Parents/Tuteurs">
+                    <field name="name"/>
+                    <field name="relation"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="student_count"/>
+                    <field name="is_financial_responsible"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_parent_form" model="ir.ui.view">
+            <field name="name">silina.parent.form</field>
+            <field name="model">silina.parent</field>
+            <field name="arch" type="xml">
+                <form string="Parent/Tuteur">
+                    <sheet>
+                        <field name="image_1920" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="relation"/>
+                                <field name="gender"/>
+                                <field name="occupation"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="is_emergency_contact"/>
+                            <field name="is_financial_responsible"/>
+                            <field name="can_pickup"/>
+                        </group>
+                        <notebook>
+                            <page string="Étudiants">
+                                <field name="student_ids" widget="many2many" context="{'tree_view_ref': 'silina_edu.view_silina_student_tree_for_student_ids'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_parent" model="ir.actions.act_window">
+            <field name="name">Parents/Tuteurs</field>
+            <field name="res_model">silina.parent</field>
+            <field name="view_mode">list,form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Action pour créer en mode modal -->
+        <record id="action_parent_create" model="ir.actions.act_window">
+            <field name="name">Nouveau Parent/Tuteur</field>
+            <field name="res_model">silina.parent</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
 </odoo>

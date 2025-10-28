@@ -1,4 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vues déjà définies dans all_views.xml -->
+    <data>
+    <!-- Vue tree pour student_ids -->
+    <record id="view_silina_student_tree_for_student_ids" model="ir.ui.view">
+        <field name="name">silina.student.tree.for.student_ids</field>
+        <field name="model">silina.student</field>
+        <field name="arch" type="xml">
+            <list string="Matricule" editable="bottom">
+                <field name="registration_number"/>
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="date_of_birth"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue tree pour subject_assignment_ids -->
+    <record id="view_silina_subject_assignment_tree_for_subject_assignment_ids" model="ir.ui.view">
+        <field name="name">silina.subject.assignment.tree.for.subject_assignment_ids</field>
+        <field name="model">silina.subject.assignment</field>
+        <field name="arch" type="xml">
+            <list string="Matière" editable="bottom">
+                <field name="subject_id"/>
+                <field name="teacher_id"/>
+                <field name="hours_per_week"/>
+            </list>
+        </field>
+    </record>
+
+
+
+        <!-- Classroom Views -->
+        <record id="view_classroom_tree" model="ir.ui.view">
+            <field name="name">silina.classroom.tree</field>
+            <field name="model">silina.classroom</field>
+            <field name="arch" type="xml">
+                <list string="Classes">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="academic_year_id"/>
+                    <field name="level_id"/>
+                    <field name="main_teacher_id"/>
+                    <field name="student_count"/>
+                    <field name="capacity"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_classroom_form" model="ir.ui.view">
+            <field name="name">silina.classroom.form</field>
+            <field name="model">silina.classroom</field>
+            <field name="arch" type="xml">
+                <form string="Classe">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_students" type="object" class="oe_stat_button" icon="fa-users">
+                                <field name="student_count" widget="statinfo" string="Étudiants"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="academic_year_id"/>
+                            </group>
+                            <group>
+                                <field name="level_id"/>
+                                <field name="main_teacher_id"/>
+                                <field name="capacity"/>
+                                <field name="room"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Étudiants">
+                                <field name="student_ids" widget="many2many" context="{'tree_view_ref': 'silina_edu.view_silina_student_tree_for_student_ids'}"/>
+                            </page>
+                            <page string="Matières">
+                                <field name="subject_assignment_ids" widget="one2many" context="{'tree_view_ref': 'silina_edu.view_silina_subject_assignment_tree_for_subject_assignment_ids'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_classroom" model="ir.actions.act_window">
+            <field name="name">Classes</field>
+            <field name="res_model">silina.classroom</field>
+            <field name="view_mode">list,form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Action pour créer en mode modal -->
+        <record id="action_classroom_create" model="ir.actions.act_window">
+            <field name="name">Nouvelle Classe</field>
+            <field name="res_model">silina.classroom</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
 </odoo>

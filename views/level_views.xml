@@ -1,4 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vues déjà définies dans all_views.xml -->
+    <data>
+
+        <!-- Level Views -->
+        <record id="view_level_tree" model="ir.ui.view">
+            <field name="name">silina.level.tree</field>
+            <field name="model">silina.level</field>
+            <field name="arch" type="xml">
+                <list string="Niveaux">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="degree"/>
+                    <field name="next_level_id"/>
+                    <field name="classroom_count"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_level_form" model="ir.ui.view">
+            <field name="name">silina.level.form</field>
+            <field name="model">silina.level</field>
+            <field name="arch" type="xml">
+                <form string="Niveau">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="degree"/>
+                            </group>
+                            <group>
+                                <field name="sequence"/>
+                                <field name="next_level_id"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <field name="description"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_level" model="ir.actions.act_window">
+            <field name="name">Niveaux</field>
+            <field name="res_model">silina.level</field>
+            <field name="view_mode">list,form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Action pour créer en mode modal -->
+        <record id="action_level_create" model="ir.actions.act_window">
+            <field name="name">Nouveau Niveau</field>
+            <field name="res_model">silina.level</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
 </odoo>

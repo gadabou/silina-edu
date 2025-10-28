@@ -1,4 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vues déjà définies dans all_views.xml -->
+    <data>
+
+        <!-- Student Document Views -->
+        <record id="view_student_document_tree" model="ir.ui.view">
+            <field name="name">silina.student.document.tree</field>
+            <field name="model">silina.student.document</field>
+            <field name="arch" type="xml">
+                <list string="Documents">
+                    <field name="name"/>
+                    <field name="student_id"/>
+                    <field name="document_type"/>
+                    <field name="date"/>
+                    <field name="is_verified"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_student_document_form" model="ir.ui.view">
+            <field name="name">silina.student.document.form</field>
+            <field name="model">silina.student.document</field>
+            <field name="arch" type="xml">
+                <form string="Document">
+                    <header>
+                        <button name="action_verify" string="Vérifier" type="object" invisible="is_verified"/>
+                        <button name="action_unverify" string="Annuler Vérification" type="object" invisible="not is_verified"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="student_id"/>
+                                <field name="document_type"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="expiry_date"/>
+                                <field name="is_verified"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="document" filename="document_filename"/>
+                            <field name="document_filename" invisible="1"/>
+                        </group>
+                        <field name="description"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_student_document" model="ir.actions.act_window">
+            <field name="name">Documents Étudiants</field>
+            <field name="res_model">silina.student.document</field>
+            <field name="view_mode">list,form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Action pour créer en mode modal -->
+        <record id="action_student_document_create" model="ir.actions.act_window">
+            <field name="name">Nouveau Document</field>
+            <field name="res_model">silina.student.document</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
 </odoo>

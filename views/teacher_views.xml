@@ -1,4 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vues déjà définies dans all_views.xml -->
+    <data>
+    <!-- Vue tree pour subject_ids -->
+    <record id="view_silina_subject_tree_for_subject_ids" model="ir.ui.view">
+        <field name="name">silina.subject.tree.for.subject_ids</field>
+        <field name="model">silina.subject</field>
+        <field name="arch" type="xml">
+            <list string="Nom" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="subject_type"/>
+                <field name="coefficient"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue tree pour subject_assignment_ids -->
+    <record id="view_silina_subject_assignment_tree_for_subject_assignment_ids" model="ir.ui.view">
+        <field name="name">silina.subject.assignment.tree.for.subject_assignment_ids</field>
+        <field name="model">silina.subject.assignment</field>
+        <field name="arch" type="xml">
+            <list string="Classe" editable="bottom">
+                <field name="classroom_id"/>
+                <field name="subject_id"/>
+                <field name="hours_per_week"/>
+            </list>
+        </field>
+    </record>
+
+
+
+        <!-- Teacher Views -->
+        <record id="view_teacher_tree" model="ir.ui.view">
+            <field name="name">silina.teacher.tree</field>
+            <field name="model">silina.teacher</field>
+            <field name="arch" type="xml">
+                <list string="Enseignants">
+                    <field name="teacher_code"/>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="specialization"/>
+                    <field name="classroom_count"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_teacher_form" model="ir.ui.view">
+            <field name="name">silina.teacher.form</field>
+            <field name="model">silina.teacher</field>
+            <field name="arch" type="xml">
+                <form string="Enseignant">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <field name="image_1920" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                            <div><field name="teacher_code"/></div>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="specialization"/>
+                                <field name="qualification"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Matières">
+                                <field name="subject_ids" widget="many2many" context="{'tree_view_ref': 'silina_edu.view_silina_subject_tree_for_subject_ids'}"/>
+                            </page>
+                            <page string="Affectations">
+                                <field name="subject_assignment_ids" widget="one2many" context="{'tree_view_ref': 'silina_edu.view_silina_subject_assignment_tree_for_subject_assignment_ids'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_teacher" model="ir.actions.act_window">
+            <field name="name">Enseignants</field>
+            <field name="res_model">silina.teacher</field>
+            <field name="view_mode">list,form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Action pour créer en mode modal -->
+        <record id="action_teacher_create" model="ir.actions.act_window">
+            <field name="name">Nouvel Enseignant</field>
+            <field name="res_model">silina.teacher</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
 </odoo>

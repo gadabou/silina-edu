@@ -37,5 +37,12 @@
             </field>
         </record>
 
+        <record id="action_generate_student_fees_wizard" model="ir.actions.act_window">
+            <field name="name">Générer Frais en Masse</field>
+            <field name="res_model">silina.generate.student.fees.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
     </data>
 </odoo>

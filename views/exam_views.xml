@@ -1,4 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vues déjà définies dans all_views.xml -->
+    <data>
+
+        <!-- Vue tree pour les classes dans les examens -->
+        <record id="view_classroom_tree_for_exam" model="ir.ui.view">
+            <field name="name">silina.classroom.tree.for.exam</field>
+            <field name="model">silina.classroom</field>
+            <field name="arch" type="xml">
+                <list string="Classes" editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="level_id"/>
+                    <field name="main_teacher_id"/>
+                    <field name="student_count"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vue tree pour les matières dans les examens -->
+        <record id="view_subject_tree_for_exam" model="ir.ui.view">
+            <field name="name">silina.subject.tree.for.exam</field>
+            <field name="model">silina.subject</field>
+            <field name="arch" type="xml">
+                <list string="Matières" editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="subject_type"/>
+                    <field name="coefficient"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Exam Views -->
+        <record id="view_exam_tree" model="ir.ui.view">
+            <field name="name">silina.exam.tree</field>
+            <field name="model">silina.exam</field>
+            <field name="arch" type="xml">
+                <list string="Examens">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="exam_type"/>
+                    <field name="academic_year_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="result_count"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_exam_form" model="ir.ui.view">
+            <field name="name">silina.exam.form</field>
+            <field name="model">silina.exam</field>
+            <field name="arch" type="xml">
+                <form string="Examen">
+                    <header>
+                        <button name="action_schedule" string="Programmer" type="object" invisible="state != 'draft'"/>
+                        <button name="action_start" string="Démarrer" type="object" invisible="state != 'scheduled'"/>
+                        <button name="action_complete" string="Terminer" type="object" invisible="state != 'in_progress'"/>
+                        <button name="action_view_results" string="Voir Résultats" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="exam_type"/>
+                                <field name="academic_year_id"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="total_marks"/>
+                                <field name="passing_marks"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Classes">
+                                <field name="classroom_ids" widget="many2many" context="{'tree_view_ref': 'silina_edu.view_classroom_tree_for_exam'}"/>
+                            </page>
+                            <page string="Matières">
+                                <field name="subject_ids" widget="many2many" context="{'tree_view_ref': 'silina_edu.view_subject_tree_for_exam'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_exam" model="ir.actions.act_window">
+            <field name="name">Examens</field>
+            <field name="res_model">silina.exam</field>
+            <field name="view_mode">list,form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Action pour créer en mode modal -->
+        <record id="action_exam_create" model="ir.actions.act_window">
+            <field name="name">Nouvel Examen</field>
+            <field name="res_model">silina.exam</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
 </odoo>

@@ -1,4 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vues déjà définies dans all_views.xml -->
+    <data>
+
+        <!-- Fee Payment Views -->
+        <record id="view_fee_payment_tree" model="ir.ui.view">
+            <field name="name">silina.fee.payment.tree</field>
+            <field name="model">silina.fee.payment</field>
+            <field name="arch" type="xml">
+                <list string="Paiements">
+                    <field name="name"/>
+                    <field name="student_id"/>
+                    <field name="student_fee_id"/>
+                    <field name="amount"/>
+                    <field name="payment_date"/>
+                    <field name="payment_method"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_fee_payment_form" model="ir.ui.view">
+            <field name="name">silina.fee.payment.form</field>
+            <field name="model">silina.fee.payment</field>
+            <field name="arch" type="xml">
+                <form string="Paiement">
+                    <header>
+                        <button name="action_confirm" string="Confirmer" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_print_receipt" string="Imprimer Reçu" type="object" invisible="state != 'paid'"/>
+                        <button name="action_cancel" string="Annuler" type="object" invisible="state != 'draft'"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="student_id"/>
+                                <field name="student_fee_id"/>
+                                <field name="installment_id"/>
+                            </group>
+                            <group>
+                                <field name="amount"/>
+                                <field name="payment_date"/>
+                                <field name="payment_method"/>
+                                <field name="reference"/>
+                                <field name="receipt_number"/>
+                            </group>
+                        </group>
+                        <field name="notes"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_fee_payment" model="ir.actions.act_window">
+            <field name="name">Paiements</field>
+            <field name="res_model">silina.fee.payment</field>
+            <field name="view_mode">list,form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Action pour créer en mode modal -->
+        <record id="action_fee_payment_create" model="ir.actions.act_window">
+            <field name="name">Nouveau Paiement</field>
+            <field name="res_model">silina.fee.payment</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
 </odoo>

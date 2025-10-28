@@ -38,5 +38,12 @@
             </field>
         </record>
 
+        <record id="action_generate_report_card_wizard" model="ir.actions.act_window">
+            <field name="name">Générer Bulletins de Notes</field>
+            <field name="res_model">silina.generate.report.card.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
     </data>
 </odoo>

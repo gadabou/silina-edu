@@ -57,5 +57,12 @@
             </field>
         </record>
 
+        <record id="action_bulk_student_promotion_wizard" model="ir.actions.act_window">
+            <field name="name">Passage en Masse</field>
+            <field name="res_model">silina.bulk.student.promotion.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
     </data>
 </odoo>

@@ -39,14 +39,29 @@
         'data/sequence_data.xml',
         'data/academic_data.xml',
 
-        # Views - All views in one file
-        'views/all_views.xml',
+        # Views - Separated by model
         'views/academic_year_views.xml',
+        'views/level_views.xml',
+        'views/classroom_views.xml',
+        'views/subject_views.xml',
+        'views/subject_assignment_views.xml',
+        'views/teacher_views.xml',
+        'views/student_views.xml',
+        'views/parent_views.xml',
+        'views/student_document_views.xml',
+        'views/exam_views.xml',
+        'views/exam_result_views.xml',
+        'views/fee_type_views.xml',
+        'views/student_fee_views.xml',
+        'views/fee_payment_views.xml',
 
-        # Wizards
+        # Wizards (must be loaded before menus that reference them)
         'wizards/bulk_student_promotion_views.xml',
         'wizards/generate_report_card_views.xml',
         'wizards/generate_student_fees_views.xml',
+
+        # Menus (loaded after wizards)
+        'views/menu_views.xml',
 
         # Reports
         'reports/report_card_template.xml',
@@ -67,3 +82,4 @@
     'application': True,
     'auto_install': False,
 }
+
