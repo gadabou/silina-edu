@@ -30,25 +30,6 @@
         </field>
     </record>
 
-    <!-- Vue tree pour fee_ids -->
-    <record id="view_silina_student_fee_tree_for_fee_ids" model="ir.ui.view">
-        <field name="name">silina.student.fee.tree.for.fee_ids</field>
-        <field name="model">silina.student.fee</field>
-        <field name="arch" type="xml">
-            <list string="Nom" editable="bottom">
-                <field name="name"/>
-                <field name="fee_type_id"/>
-                <field name="amount"/>
-                <field name="amount_paid"/>
-                <field name="amount_due"/>
-                <field name="due_date"/>
-                <field name="state"/>
-            </list>
-        </field>
-    </record>
-
-
-
         <!-- Student Views -->
         <record id="view_student_tree" model="ir.ui.view">
             <field name="name">silina.student.tree</field>
@@ -118,14 +99,6 @@
                             </page>
                             <page string="Documents">
                                 <field name="document_ids" widget="one2many" context="{'tree_view_ref': 'silina_edu.view_silina_student_document_tree_for_document_ids'}"/>
-                            </page>
-                            <page string="Frais Scolaires">
-                                <group>
-                                    <field name="total_fees"/>
-                                    <field name="total_paid"/>
-                                    <field name="total_due"/>
-                                </group>
-                                <field name="fee_ids" widget="one2many" context="{'tree_view_ref': 'silina_edu.view_silina_student_fee_tree_for_fee_ids'}"/>
                             </page>
                         </notebook>
                     </sheet>

@@ -104,22 +104,22 @@
             action="action_teacher"
             sequence="1"/>
 
-        <!-- Frais et Paiements -->
+        <!-- Facturation -->
         <menuitem id="menu_silina_edu_fees"
-            name="Frais et Paiements"
+            name="Facturation"
             parent="menu_silina_edu_root"
             sequence="40"/>
 
-        <menuitem id="menu_student_fee"
-            name="Frais Élèves"
+        <menuitem id="menu_invoices"
+            name="Factures"
             parent="menu_silina_edu_fees"
-            action="action_student_fee"
+            action="account.action_move_out_invoice_type"
             sequence="1"/>
 
-        <menuitem id="menu_fee_payment"
+        <menuitem id="menu_payments"
             name="Paiements"
             parent="menu_silina_edu_fees"
-            action="action_fee_payment"
+            action="account.action_account_payments"
             sequence="2"/>
 
         <!-- Rapports -->
@@ -151,12 +151,6 @@
             parent="menu_silina_edu_tools"
             action="action_bulk_student_promotion_wizard"
             sequence="1"/>
-
-        <menuitem id="menu_generate_fees"
-            name="Générer Frais en Masse"
-            parent="menu_silina_edu_tools"
-            action="action_generate_student_fees_wizard"
-            sequence="2"/>
 
     </data>
 </odoo>

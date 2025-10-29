@@ -170,33 +170,7 @@ class Student(models.Model):
         string='Résultats d\'examens'
     )
 
-    # Frais scolaires
-    fee_ids = fields.One2many(
-        'silina.student.fee',
-        'student_id',
-        string='Frais scolaires'
-    )
-    fee_payment_ids = fields.One2many(
-        'silina.fee.payment',
-        'student_id',
-        string='Paiements'
-    )
-
-    total_fees = fields.Monetary(
-        string='Total des frais',
-        compute='_compute_fee_totals',
-        currency_field='currency_id'
-    )
-    total_paid = fields.Monetary(
-        string='Total payé',
-        compute='_compute_fee_totals',
-        currency_field='currency_id'
-    )
-    total_due = fields.Monetary(
-        string='Reste à payer',
-        compute='_compute_fee_totals',
-        currency_field='currency_id'
-    )
+    # Frais scolaires (gérés via factures account.move)
     currency_id = fields.Many2one(
         'res.currency',
         string='Devise',
@@ -237,15 +211,6 @@ class Student(models.Model):
             else:
                 record.age = 0
 
-    @api.depends('fee_ids', 'fee_ids.amount', 'fee_payment_ids', 'fee_payment_ids.amount')
-    def _compute_fee_totals(self):
-        for record in self:
-            record.total_fees = sum(record.fee_ids.mapped('amount'))
-            record.total_paid = sum(record.fee_payment_ids.filtered(
-                lambda p: p.state == 'paid'
-            ).mapped('amount'))
-            record.total_due = record.total_fees - record.total_paid
-
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -281,28 +246,6 @@ class Student(models.Model):
         self.ensure_one()
         self.state = 'repeated'
         return True
-
-    def action_view_fees(self):
-        self.ensure_one()
-        return {
-            'name': _('Frais Scolaires'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'silina.student.fee',
-            'view_mode': 'list,form',
-            'domain': [('student_id', '=', self.id)],
-            'context': {'default_student_id': self.id}
-        }
-
-    def action_view_payments(self):
-        self.ensure_one()
-        return {
-            'name': _('Paiements'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'silina.fee.payment',
-            'view_mode': 'list,form',
-            'domain': [('student_id', '=', self.id)],
-            'context': {'default_student_id': self.id}
-        }
 
     def action_generate_report_card(self):
         self.ensure_one()

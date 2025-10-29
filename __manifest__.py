@@ -52,13 +52,10 @@
         'views/exam_views.xml',
         'views/exam_result_views.xml',
         'views/fee_type_views.xml',
-        'views/student_fee_views.xml',
-        'views/fee_payment_views.xml',
 
         # Wizards (must be loaded before menus that reference them)
         'wizards/bulk_student_promotion_views.xml',
         'wizards/generate_report_card_views.xml',
-        'wizards/generate_student_fees_views.xml',
         'wizards/generate_fee_invoices_views.xml',
 
         # Menus (loaded after wizards)

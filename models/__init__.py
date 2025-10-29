@@ -10,6 +10,4 @@ from . import exam
 from . import exam_result
 from . import subject_assignment
 from . import fee_type
-from . import student_fee
-from . import fee_payment
 from . import res_partner
