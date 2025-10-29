@@ -113,9 +113,13 @@ class GenerateFeeInvoices(models.TransientModel):
 
         for student in students:
             try:
-                # Vérifier si des factures existent déjà
+                # S'assurer que l'élève a un contact partner
+                if not student.partner_id:
+                    student._create_partner()
+
+                # Vérifier si des factures existent déjà pour cet élève
                 existing_invoices = self.env['account.move'].search([
-                    ('partner_id.parent_ids', 'in', student.parent_ids.ids),
+                    ('partner_id', '=', student.partner_id.id),
                     ('invoice_line_ids.product_id', '=', self.fee_type_id.product_id.id),
                     ('state', 'in', ['draft', 'posted']),
                 ])
@@ -124,25 +128,19 @@ class GenerateFeeInvoices(models.TransientModel):
                     errors.append(f"{student.name}: Des factures existent déjà")
                     continue
 
-                # Trouver le partenaire (parent responsable financier)
-                partner = self._get_partner_for_student(student)
-                if not partner:
-                    errors.append(f"{student.name}: Aucun contact facturable trouvé")
-                    continue
-
                 # Créer une facture par tranche
                 for installment in self.fee_type_id.installment_ids:
                     due_date = self._compute_due_date(installment)
 
                     invoice_vals = {
                         'move_type': 'out_invoice',
-                        'partner_id': partner.id,
+                        'partner_id': student.partner_id.id,  # Utiliser le contact de l'élève
                         'invoice_date': fields.Date.today(),
                         'invoice_date_due': due_date,
                         'invoice_origin': f"{self.fee_type_id.name} - {installment.name}",
                         'invoice_line_ids': [(0, 0, {
                             'product_id': self.fee_type_id.product_id.id,
-                            'name': f"{self.fee_type_id.name} - {installment.name}\nÉlève: {student.name}\nAnnée: {self.academic_year_id.name}",
+                            'name': f"{self.fee_type_id.name} - {installment.name}\nÉlève: {student.name}\nMatricule: {student.registration_number}\nClasse: {student.classroom_id.name if student.classroom_id else 'N/A'}\nAnnée: {self.academic_year_id.name}",
                             'quantity': 1,
                             'price_unit': installment.amount,
                             'account_id': self.fee_type_id.account_id.id if self.fee_type_id.account_id else self.fee_type_id.product_id.categ_id.property_account_income_categ_id.id,

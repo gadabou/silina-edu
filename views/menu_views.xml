@@ -104,6 +104,12 @@
             action="action_teacher"
             sequence="1"/>
 
+        <menuitem id="menu_payroll"
+            name="Fiches de Paie"
+            parent="menu_silina_edu_staff"
+            action="action_payroll"
+            sequence="2"/>
+
         <!-- Facturation -->
         <menuitem id="menu_silina_edu_fees"
             name="Facturation"

@@ -177,6 +177,14 @@ class Student(models.Model):
         default=lambda self: self.env.company.currency_id
     )
 
+    # Contact Odoo pour la facturation
+    partner_id = fields.Many2one(
+        'res.partner',
+        string='Contact lié',
+        help="Contact Odoo lié pour la facturation des frais scolaires",
+        readonly=True
+    )
+
     # Informations médicales
     allergies = fields.Text(string='Allergies')
     medical_conditions = fields.Text(string='Conditions médicales')
@@ -220,7 +228,13 @@ class Student(models.Model):
                 ) or _('Nouveau')
             if vals.get('first_name') and vals.get('last_name'):
                 vals['name'] = f"{vals['first_name']} {vals['last_name']}"
-        return super().create(vals_list)
+
+        students = super().create(vals_list)
+        # Créer automatiquement le contact partner pour chaque élève
+        for student in students:
+            if not student.partner_id:
+                student._create_partner()
+        return students
 
     def write(self, vals):
         if 'first_name' in vals or 'last_name' in vals:
@@ -257,3 +271,40 @@ class Student(models.Model):
             'target': 'new',
             'context': {'default_student_ids': [(6, 0, self.ids)]}
         }
+
+    def _create_partner(self):
+        """Créer un contact res.partner pour l'élève"""
+        self.ensure_one()
+        if self.partner_id:
+            return self.partner_id
+
+        # Trouver le contact du parent responsable financier pour le lier
+        parent_partner = False
+        for parent in self.parent_ids:
+            if parent.is_financial_responsible and parent.partner_id:
+                parent_partner = parent.partner_id
+                break
+
+        partner_vals = {
+            'name': self.name,
+            'email': self.email,
+            'phone': self.phone,
+            'mobile': self.mobile,
+            'street': self.street,
+            'street2': self.street2,
+            'city': self.city,
+            'state_id': self.state_id.id if self.state_id else False,
+            'zip': self.zip,
+            'country_id': self.country_id.id if self.country_id else False,
+            'comment': f'Élève - Matricule: {self.registration_number}',
+            'type': 'contact',
+            'customer_rank': 1,  # Marquer comme client
+        }
+
+        # Si un parent responsable financier existe, le lier comme contact parent
+        if parent_partner:
+            partner_vals['parent_id'] = parent_partner.id
+
+        partner = self.env['res.partner'].sudo().create(partner_vals)
+        self.partner_id = partner.id
+        return partner

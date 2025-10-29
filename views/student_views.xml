@@ -86,6 +86,7 @@
                                         <field name="email"/>
                                         <field name="phone"/>
                                         <field name="mobile"/>
+                                        <field name="partner_id" readonly="1" string="Contact pour facturation"/>
                                     </group>
                                     <group>
                                         <field name="street"/>
