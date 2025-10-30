@@ -240,11 +240,19 @@ class StudentFeePayment(models.TransientModel):
 
         payment.action_post()
 
-        # Réconcilier avec la facture
-        lines_to_reconcile = (invoice.line_ids + payment.move_id.line_ids).filtered(
-            lambda line: line.account_id == invoice.line_ids[0].account_id and not line.reconciled
+        # Réconcilier avec la facture sur le compte de créances clients uniquement
+        # Trouver le compte de créances (receivable) - celui qui permet le lettrage
+        receivable_lines = invoice.line_ids.filtered(
+            lambda line: line.account_id.account_type == 'asset_receivable' and not line.reconciled
         )
-        lines_to_reconcile.reconcile()
+        payment_lines = payment.move_id.line_ids.filtered(
+            lambda line: line.account_id.account_type == 'asset_receivable' and not line.reconciled
+        )
+
+        # Réconcilier les lignes de créances
+        lines_to_reconcile = receivable_lines + payment_lines
+        if lines_to_reconcile:
+            lines_to_reconcile.reconcile()
 
         return payment
 
