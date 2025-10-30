@@ -20,9 +20,13 @@
                         <group>
                             <group>
                                 <field name="student_id" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="fee_type_id" options="{'no_create': True}"/>
-                                <field name="payment_type" widget="radio"/>
-                                <field name="installment_id" invisible="payment_type != 'installment'" required="payment_type == 'installment'"/>
+                                <field name="fee_type_id"
+                                    options="{'no_create': True}"
+                                    domain="['|', ('level_ids', '=', False), ('level_ids', 'in', [parent.student_id.level_id])]"
+                                    context="{'search_default_active': True}"/>
+                                <field name="has_installments" invisible="1"/>
+                                <field name="payment_type" widget="radio" invisible="not has_installments"/>
+                                <field name="installment_id" invisible="payment_type != 'installment' or not has_installments" required="payment_type == 'installment' and has_installments"/>
                             </group>
                             <group>
                                 <field name="amount" widget="monetary"/>

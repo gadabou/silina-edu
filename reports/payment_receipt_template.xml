@@ -153,37 +153,59 @@
                                 </p>
                             </div>
 
-                            <!-- Détails du paiement -->
-                            <table class="payment-table">
+                            <!-- Informations de la facture liée -->
+                            <t t-set="invoice" t-value="payment.reconciled_invoice_ids[0] if payment.reconciled_invoice_ids else False"/>
+                            <div class="info-box" t-if="invoice">
+                                <h4 style="margin-top: 0; color: #2C3E50;">Facture N° <span t-esc="invoice.name"/></h4>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p><strong>Date facture:</strong> <span t-field="invoice.invoice_date"/></p>
+                                        <p><strong>Date échéance:</strong> <span t-field="invoice.invoice_date_due"/></p>
+                                        <p><strong>Montant total facture:</strong> <span t-field="invoice.amount_total" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p><strong>Montant déjà payé:</strong> <span t-esc="invoice.amount_total - invoice.amount_residual" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/></p>
+                                        <p><strong>Montant de ce paiement:</strong> <span t-field="payment.amount" t-options='{"widget": "monetary", "display_currency": payment.currency_id}'/></p>
+                                        <p><strong>Reste à payer:</strong> <span t-esc="invoice.amount_residual - payment.amount" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Détails des tranches de la facture -->
+                            <table class="payment-table" t-if="invoice">
                                 <thead>
                                     <tr>
-                                        <th>Description</th>
+                                        <th>Tranche</th>
                                         <th class="text-right">Montant</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <strong>Paiement</strong><br/>
-                                            <span t-if="payment.ref" t-field="payment.ref"/><br/>
-                                            <t t-if="payment.reconciled_invoice_ids">
-                                                <span style="color: #666;">Factures: </span>
-                                                <t t-foreach="payment.reconciled_invoice_ids" t-as="invoice">
-                                                    <span t-esc="invoice.name"/><t t-if="not invoice_last">, </t>
-                                                </t>
-                                            </t>
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-field="payment.amount" t-options='{"widget": "monetary", "display_currency": payment.currency_id}'/>
-                                        </td>
-                                    </tr>
+                                    <t t-foreach="invoice.invoice_line_ids" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-field="line.name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </t>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <td><strong>MONTANT PAYÉ</strong></td>
+                                    <tr style="background-color: #3498db !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;">
+                                        <td><strong>PAIEMENT EFFECTUÉ</strong></td>
                                         <td class="text-right">
                                             <strong t-field="payment.amount" t-options='{"widget": "monetary", "display_currency": payment.currency_id}'/>
                                         </td>
+                                    </tr>
+                                    <tr t-if="invoice.amount_residual - payment.amount > 0.01">
+                                        <td><strong>RESTE À PAYER</strong></td>
+                                        <td class="text-right">
+                                            <strong t-esc="invoice.amount_residual - payment.amount" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="invoice.amount_residual - payment.amount &lt;= 0.01" style="background-color: #27ae60 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;">
+                                        <td colspan="2" class="text-center"><strong>✓ FACTURE ENTIÈREMENT SOLDÉE</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>
