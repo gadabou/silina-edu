@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vue Formulaire du Wizard de Paiement -->
+        <record id="view_student_fee_payment_wizard_form" model="ir.ui.view">
+            <field name="name">silina.student.fee.payment.wizard.form</field>
+            <field name="model">silina.student.fee.payment.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Paiement des Frais Scolaires">
+                    <sheet>
+                        <div class="alert alert-warning" role="alert" invisible="overdue_invoices_count == 0">
+                            <strong>⚠️ Attention !</strong> Cet élève a <field name="overdue_invoices_count"/> facture(s) en retard de paiement.
+                        </div>
+
+                        <div class="alert alert-info" role="alert" invisible="not existing_invoices or overdue_invoices_count > 0">
+                            <strong>ℹ️ Information:</strong> Il existe des factures impayées pour un montant de <field name="unpaid_amount" widget="monetary"/>.
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="student_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="fee_type_id" options="{'no_create': True}"/>
+                                <field name="payment_type" widget="radio"/>
+                                <field name="installment_id" invisible="payment_type != 'installment'" required="payment_type == 'installment'"/>
+                            </group>
+                            <group>
+                                <field name="amount" widget="monetary"/>
+                                <field name="payment_method"/>
+                                <field name="payment_date"/>
+                                <field name="reference" placeholder="Ex: Chèque n°123456"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="existing_invoices" invisible="1"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <field name="notes" placeholder="Commentaires additionnels..."/>
+                        </group>
+                    </sheet>
+
+                    <footer>
+                        <button name="action_process_payment" string="Traiter le paiement" type="object" class="btn-primary"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action pour ouvrir le wizard -->
+        <record id="action_student_fee_payment_wizard" model="ir.actions.act_window">
+            <field name="name">Paiement des Frais</field>
+            <field name="res_model">silina.student.fee.payment.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_silina_student"/>
+            <field name="binding_view_types">form</field>
+        </record>
+
+    </data>
+</odoo>

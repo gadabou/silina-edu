@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Rapport de Reçu de Paiement -->
+        <record id="action_report_payment_receipt" model="ir.actions.report">
+            <field name="name">Reçu de Paiement</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">silina_edu.report_payment_receipt_document</field>
+            <field name="report_file">silina_edu.report_payment_receipt_document</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_payment_receipt_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="payment">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <style>
+                                .receipt-header {
+                                    text-align: center;
+                                    border-bottom: 3px solid #2C3E50;
+                                    padding-bottom: 15px;
+                                    margin-bottom: 25px;
+                                }
+
+                                .receipt-header h2 {
+                                    color: #2C3E50;
+                                    font-size: 22pt;
+                                    margin: 0;
+                                }
+
+                                .receipt-number {
+                                    color: #3498db;
+                                    font-size: 14pt;
+                                    margin-top: 5px;
+                                }
+
+                                .info-box {
+                                    background-color: #f8f9fa !important;
+                                    padding: 15px;
+                                    margin: 15px 0;
+                                    border-left: 4px solid #3498db;
+                                    -webkit-print-color-adjust: exact;
+                                    print-color-adjust: exact;
+                                }
+
+                                .info-box strong {
+                                    color: #2C3E50;
+                                    display: inline-block;
+                                    min-width: 150px;
+                                }
+
+                                .payment-table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    margin: 20px 0;
+                                }
+
+                                .payment-table th {
+                                    background-color: #2C3E50 !important;
+                                    color: white !important;
+                                    padding: 12px;
+                                    text-align: left;
+                                    border: 1px solid #2C3E50;
+                                    -webkit-print-color-adjust: exact;
+                                    print-color-adjust: exact;
+                                }
+
+                                .payment-table td {
+                                    padding: 10px 12px;
+                                    border: 1px solid #dee2e6;
+                                }
+
+                                .payment-table tfoot td {
+                                    background-color: #2C3E50 !important;
+                                    color: white !important;
+                                    font-weight: bold;
+                                    font-size: 14pt;
+                                    padding: 15px 12px;
+                                    -webkit-print-color-adjust: exact;
+                                    print-color-adjust: exact;
+                                }
+
+                                .signature-section {
+                                    margin-top: 60px;
+                                    display: table;
+                                    width: 100%;
+                                }
+
+                                .signature-box {
+                                    display: table-cell;
+                                    width: 50%;
+                                    text-align: center;
+                                }
+
+                                .signature-line {
+                                    border-top: 1px solid #000;
+                                    width: 200px;
+                                    margin: 40px auto 10px;
+                                }
+
+                                .watermark {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%) rotate(-45deg);
+                                    font-size: 80pt;
+                                    color: rgba(76, 175, 80, 0.1);
+                                    font-weight: bold;
+                                    z-index: -1;
+                                }
+                            </style>
+
+                            <!-- En-tête du reçu -->
+                            <div class="receipt-header">
+                                <h2>REÇU DE PAIEMENT</h2>
+                                <div class="receipt-number">
+                                    N° <strong><span t-field="payment.name"/></strong>
+                                </div>
+                            </div>
+
+                            <!-- Filigrane "PAYÉ" -->
+                            <div class="watermark">PAYÉ</div>
+
+                            <!-- Informations du paiement -->
+                            <div class="info-box">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p><strong>Date:</strong> <span t-field="payment.date"/></p>
+                                        <p><strong>Référence:</strong> <span t-field="payment.ref"/></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p><strong>Mode de paiement:</strong> <span t-field="payment.journal_id.name"/></p>
+                                        <p t-if="payment.ref"><strong>Numéro:</strong> <span t-field="payment.ref"/></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Informations sur l'élève -->
+                            <div class="info-box">
+                                <h4 style="margin-top: 0; color: #2C3E50;">Informations Élève</h4>
+                                <t t-set="student" t-value="env['silina.student'].search([('partner_id', '=', payment.partner_id.id)], limit=1)"/>
+                                <p t-if="student">
+                                    <strong>Nom:</strong> <span t-esc="student.name"/><br/>
+                                    <strong>Matricule:</strong> <span t-esc="student.registration_number"/><br/>
+                                    <strong>Classe:</strong> <span t-esc="student.classroom_id.name if student.classroom_id else 'N/A'"/>
+                                </p>
+                                <p t-if="not student">
+                                    <strong>Client:</strong> <span t-field="payment.partner_id.name"/>
+                                </p>
+                            </div>
+
+                            <!-- Détails du paiement -->
+                            <table class="payment-table">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th class="text-right">Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Paiement</strong><br/>
+                                            <span t-if="payment.ref" t-field="payment.ref"/><br/>
+                                            <t t-if="payment.reconciled_invoice_ids">
+                                                <span style="color: #666;">Factures: </span>
+                                                <t t-foreach="payment.reconciled_invoice_ids" t-as="invoice">
+                                                    <span t-esc="invoice.name"/><t t-if="not invoice_last">, </t>
+                                                </t>
+                                            </t>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="payment.amount" t-options='{"widget": "monetary", "display_currency": payment.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td><strong>MONTANT PAYÉ</strong></td>
+                                        <td class="text-right">
+                                            <strong t-field="payment.amount" t-options='{"widget": "monetary", "display_currency": payment.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <!-- Notes -->
+                            <div t-if="payment.ref" style="margin: 20px 0;">
+                                <p><strong>Remarques:</strong></p>
+                                <p style="color: #666;">Merci pour votre paiement. Ce reçu fait foi de paiement.</p>
+                            </div>
+
+                            <!-- Signatures -->
+                            <div class="signature-section">
+                                <div class="signature-box">
+                                    <p><strong>Signature du payeur</strong></p>
+                                    <div class="signature-line"></div>
+                                </div>
+                                <div class="signature-box">
+                                    <p><strong>Signature du caissier</strong></p>
+                                    <div class="signature-line"></div>
+                                    <p style="margin-top: 5px; font-size: 9pt;"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

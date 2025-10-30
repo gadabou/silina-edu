@@ -128,6 +128,12 @@
             action="account.action_account_payments"
             sequence="2"/>
 
+        <menuitem id="menu_student_fee_payment"
+            name="Payer les Frais"
+            parent="menu_silina_edu_fees"
+            action="action_student_fee_payment_wizard"
+            sequence="3"/>
+
         <!-- Rapports -->
         <menuitem id="menu_silina_edu_reports"
             name="Rapports"

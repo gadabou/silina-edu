@@ -59,6 +59,7 @@
         'wizards/bulk_student_promotion_views.xml',
         'wizards/generate_report_card_views.xml',
         'wizards/generate_fee_invoices_views.xml',
+        'wizards/student_fee_payment_views.xml',
 
         # Menus (loaded after wizards)
         'views/menu_views.xml',
@@ -66,6 +67,7 @@
         # Reports
         'reports/invoice_report_template.xml',
         'reports/invoice_enhanced_template.xml',
+        'reports/payment_receipt_template.xml',
         'reports/report_card_template.xml',
         'reports/student_list_template.xml',
     ],
