@@ -9,8 +9,7 @@ class StudentFeePayment(models.TransientModel):
     student_id = fields.Many2one(
         'silina.student',
         string='Élève',
-        required=True,
-        domain="[('state', '=', 'enrolled')]"
+        required=True
     )
 
     fee_type_id = fields.Many2one(
@@ -230,11 +229,15 @@ class StudentFeePayment(models.TransientModel):
             'partner_id': self.student_id.partner_id.id,
             'amount': self.amount,
             'date': self.payment_date,
-            'ref': self.reference or f"Paiement {self.fee_type_id.name} - {self.student_id.name}",
             'journal_id': self._get_payment_journal().id,
         }
 
         payment = self.env['account.payment'].create(payment_vals)
+
+        # Ajouter la référence dans le mouvement comptable si fournie
+        if self.reference:
+            payment.move_id.write({'ref': self.reference})
+
         payment.action_post()
 
         # Réconcilier avec la facture
