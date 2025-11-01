@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top menu item -->
+    <menuitem name="Fees"
+        id="menu_school_fees"
+        groups="account.group_account_invoice,account.group_account_manager"
+        web_icon="de_school_fees,static/description/icon.png"
+        sequence="57" />
+    
+    <menuitem name="Feeslips" id="menu_school_fees_main"
+			parent="menu_school_fees" 
+              sequence = "10"
+			/>
+    
+    <menuitem name="Fee Collection" id="menu_school_fee_collection_main"
+			parent="menu_school_fees" 
+              sequence = "20"
+			 />
+    
+    <menuitem name="Reports" id="menu_school_fees_menu_reports"
+			parent="menu_school_fees" 
+              sequence = "90"
+			 />
+    
+    <menuitem name="Configuration" id="menu_school_fees_menu_config"
+			parent="menu_school_fees" 
+              sequence = "100"
+			groups="account.group_account_invoice,account.group_account_manager" />
+    
+    
+    
+</odoo>

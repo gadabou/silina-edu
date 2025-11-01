@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fee_rule_list" model="ir.ui.view">
+        <field name="name">fee.rule.list</field>
+        <field name="model">oe.fee.rule</field>
+        <field name="arch" type="xml">
+            <list string="Fee Rules">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category_id"/>
+                <field name="fee_struct_id" invisible="1"/>
+                <field name="sequence" invisible="1"/>
+                <field name="partner_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="fee_rule_view_kanban" model="ir.ui.view">
+        <field name="name">fee.rule.kanban</field>
+        <field name="model">oe.fee.rule</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-8">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="col-4">
+                                    <span class="float-right"><field name="category_id"/></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <span>Code: <field name="code"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="fee_rule_form" model="ir.ui.view">
+        <field name="name">fee.rule.form</field>
+        <field name="model">oe.fee.rule</field>
+        <field name="arch" type="xml">
+            <form string="Fee Particulars">
+            <sheet>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <label for="name" string="Particular Name"/>
+                <h1><field name="name" placeholder="e.g. Net Fee"/></h1>
+                <label for="category_id"/>
+                <h2><field name="category_id" placeholder="e.g. Net"/></h2>
+
+                <group name="main_details" >
+                    <group>
+                        <field name="code"/>
+                       <field name="sequence"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                    <group>
+                        <field name="fee_struct_id"/>
+                        <field name="schedule_pay"/>
+                        <field name="appears_on_feeslip"/>
+                    </group>
+                </group>
+                <notebook colspan="6">
+                    <page name="general" string="General">
+                        <group name="general_conditions">
+                            <group string="Conditions">
+                                <field name="condition_select"/>
+                                <field name="condition_range" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/>
+                                <field name="condition_range_min" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/>
+                                <field name="condition_range_max" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/>
+                            </group>
+                            <group colspan="4">
+                                <field name="condition_python" attrs="{'invisible':[('condition_select','!=','python')], 'required': [('condition_select','=','python')]}"/>
+                            </group>
+                            <group string="Computation">
+                                <field name="amount_select"/>
+                                <field name="amount_percentage_base" attrs="{'invisible':[('amount_select','!=','percentage')], 'required': [('amount_select','=','percentage')]}"/>
+                                <field name="quantity" attrs="{'invisible':[('amount_select','=','code')], 'required':[('amount_select','!=','code')]}"/>
+                                <field name="amount_fix"  attrs="{'invisible':[('amount_select','!=','fix')], 'required':[('amount_select','=','fix')]}"/>
+                                <field name="amount_total"  attrs="{'invisible':[('amount_select','!=','fix')], 'required':[('amount_select','=','fix')]}"/>
+
+                                <field name="amount_percentage" attrs="{'invisible':[('amount_select','!=','percentage')], 'required':[('amount_select','=','percentage')]}"/>
+                            </group>
+                            <group colspan="4">
+                                <field colspan="4" name="amount_python_compute" attrs="{'invisible':[('amount_select','!=','code')], 'required':[('amount_select','=','code')]}"/>
+                            </group>
+                            <group string="Company Contribution">
+                                <field name="partner_id"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page name="description" string="Description">
+                        <field name="note"/>
+                    </page>
+                    <page name="billing" string="Billing">
+                    </page>
+                </notebook>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_rule_filter" model="ir.ui.view">
+        <field name="name">fee.rule.select</field>
+        <field name="model">oe.fee.rule</field>
+        <field name="arch" type="xml">
+            <search string="Search Fee Rule">
+                <field name="name" string="Fee Rules" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                <field name="category_id"/>
+                <field name="fee_struct_id"/>
+                <field name="condition_range_min"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group col="8" colspan="4" expand="0" string="Group By">
+                    <filter string="Category" name="head" context="{'group_by': 'category_id'}"/>
+                    <filter string="Fee Structure" name="group_by_struct_id" context="{'group_by': 'fee_struct_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_fee_rule" model="ir.actions.act_window">
+        <field name="name">Fee Particulars</field>
+        <field name="res_model">oe.fee.rule</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_group_by_struct_id': 1}</field>
+        <field name="search_view_id" ref="view_hr_rule_filter"/>
+    </record>
+    
+     <menuitem
+        id="menu_school_fees_menu_config_fee_rules"
+        name="Fee Particulars"
+        parent="menu_school_fees_menu_config"
+        action="action_fee_rule"
+        sequence="2"/>
+    
+</odoo>

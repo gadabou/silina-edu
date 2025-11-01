@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="feeslip_input_type_form_view" model="ir.ui.view">
+        <field name="name">feeslip.input.type.form.view</field>
+        <field name="model">oe.feeslip.input.type</field>
+        <field name="arch" type="xml">
+            <form string="Feeslip Input" >
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="country_id" options="{'no_create': True, 'no_open': True}" groups="base.group_no_one"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="struct_ids" widget="many2many_tags" colspan="4"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="feeslip_input_type_tree_view" model="ir.ui.view">
+        <field name="name">feeslip.input.type.tree.view</field>
+        <field name="model">oe.feeslip.input.type</field>
+        <field name="arch" type="xml">
+            <list string="Payslip Input" >
+                <field name="name" placeholder="Payslip Input Name"/>
+                <field name="code"/>
+                <field name="struct_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="feeslip_input_type_kanban_view" model="ir.ui.view">
+        <field name="name">feeslip.input.type.kanban.view</field>
+        <field name="model">oe.feeslip.input.type</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div>
+                                    <strong class="o_kanban_record_title"><span><field name="name"/></span></strong>
+                                </div>
+                                <div>
+                                    <span class="text-muted o_kanban_record_subtitle"><field name="code"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_feeslip_input_type" model="ir.actions.act_window">
+        <field name="name">Feeslip Other Input Types</field>
+        <field name="res_model">oe.feeslip.input.type</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+    
+    <menuitem
+        id="menu_school_fees_menu_config_other_fee_type"
+        name="Other Fee Type"
+        parent="menu_school_fees_menu_config"
+        action="action_feeslip_input_type"
+        sequence="4"/>
+
+</odoo>

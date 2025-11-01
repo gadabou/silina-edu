@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Salary Category-->
+    <record id="fee_category_form" model="ir.ui.view">
+        <field name="name">fee.category.form</field>
+        <field name="model">oe.fee.category</field>
+        <field name="arch" type="xml">
+            <form string="Fee Categories">
+            <sheet>
+                <group name="category_details" col="4">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="parent_id"/>
+                </group>
+                <group name="notes" string="Notes">
+                    <field name="note" nolabel="1"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fee_category_tree" model="ir.ui.view">
+        <field name="name">fee.category.tree</field>
+        <field name="model">oe.fee.category</field>
+        <field name="arch" type="xml">
+            <list string="Fee Categories">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="parent_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_fee_category_filter" model="ir.ui.view">
+        <field name="name">fee.category.select</field>
+        <field name="model">oe.fee.category</field>
+        <field name="arch" type="xml">
+            <search string="Fee Categories">
+                <field name="name" string="Fee Categories" filter_domain="['|',('name','ilike',self),('code','ilike',self)]"/>
+           </search>
+        </field>
+    </record>
+
+    <record id="action_fee_category" model="ir.actions.act_window">
+        <field name="name">Fee Categories</field>
+        <field name="res_model">oe.fee.category</field>
+        <field name="view_id" ref="fee_category_tree"/>
+       <field name="search_view_id" ref="view_fee_category_filter"/>
+    </record>
+    
+    <menuitem
+        id="menu_school_fees_menu_config_fee_category"
+        name="Fee Categories"
+        parent="menu_school_fees_menu_config"
+        action="action_fee_category"
+        sequence="1"/>
+    
+</odoo>

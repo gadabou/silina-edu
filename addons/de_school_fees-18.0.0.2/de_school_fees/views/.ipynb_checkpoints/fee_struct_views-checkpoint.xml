@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fee structure -->
+    <record id="fee_structure_list_view" model="ir.ui.view">
+        <field name="name">fee.structure.tree</field>
+        <field name="model">oe.fee.struct</field>
+        <field name="arch" type="xml">
+            <list string="Fee Structure">
+                <field name="name"/>
+                <field name="rule_ids"/>
+                <field name="country_id" options="{'no_create': True}"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="fee_structure_view_kanban" model="ir.ui.view">
+        <field name="name">fee.structure.kanban</field>
+        <field name="model">oe.fee.struct</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="fee_structure_filter" model="ir.ui.view">
+        <field name="name">fee.structure.select</field>
+        <field name="model">oe.fee.struct</field>
+        <field name="arch" type="xml">
+            <search string="Fee Structures">
+                <field name="name" string="Structure Name"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                
+            </search>
+        </field>
+    </record>
+
+    <record id="fee_structure_form_view" model="ir.ui.view">
+        <field name="name">fee.structure.form.view</field>
+        <field name="model">oe.fee.struct</field>
+        <field name="arch" type="xml">
+            <form string="Fee Structure">
+            <sheet>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <div class="oe_title">
+                    <label for="name" string="Structure Name"/>
+                    <h1><field name="name" placeholder="e.g. Regular Feeslip"/></h1>
+                </div>
+                <group>
+                    <group name="fee_details">
+                        <field name="active" invisible="1"/>
+                        <field name="id" invisible="1"/>
+                        <field name="use_enrollment_contract_lines"/>
+                        <field name="country_id" options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <group>
+                        <field name="course_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="batch_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="schedule_pay"/>
+                    </group>
+                </group>
+                <notebook colspan="4">
+                     <page name="fee_rules" string="Particulars">
+                       <field name="rule_ids" attrs="{'readonly': [('id', '=', False)]}">
+                         <list>
+                            <field name="name"/>
+                            <field name="code"/>
+                             <field name="schedule_pay"/>
+                            <field name="category_id"/>
+                             <field name="quantity"/>
+                             <field name="amount_fix" />
+                             <field name="amount_total" sum="Amount"/>
+                            <field name="sequence" invisible="1"/>
+                            <field name="partner_id"/>
+                         </list>
+                      </field>
+                     </page>
+                     <page name="other_fee_type" string="Other Fee Type">
+                       <field name="input_line_type_ids">
+                         <list>
+                            <field name="name"/>
+                            <field name="code"/>
+                         </list>
+                      </field>
+                     </page>
+                </notebook>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fee_structure" model="ir.actions.act_window">
+        <field name="name">Fee Structures</field>
+        <field name="res_model">oe.fee.struct</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Add a new fee structure
+            </p>
+        </field>
+    </record>
+    
+    <menuitem
+        id="menu_school_fees_menu_config_fee_structure"
+        name="Fee Structure"
+        parent="menu_school_fees_menu_config"
+        action="action_fee_structure"
+        sequence="3"/>
+    
+</odoo>

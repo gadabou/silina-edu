@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!--
+        <record id="regular_fee_category" model="oe.fee.category">
+            <field name="name">Regular Fee</field>
+            <field name="code">REG</field>
+        </record>
+        
+        <record id="other_fee_category" model="oe.fee.category">
+            <field name="name">Other Fee</field>
+            <field name="code">OTH</field>
+        </record>
+        -->
+        <!-- Fee Strucure -->
+        <!--
+        <record id="fee_structure_semester_001" model="oe.fee.struct">
+            <field name="name">Semester Fee</field>
+        </record>
+        -->
+        <!-- Fee Rule -->
+        <!--
+        <record id="fee_rule_semester_tuition" model="oe.fee.rule">
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">contract.hourly_wage</field>
+            <field name="quantity">1</field>
+            <field name="amount_percentage">100.0</field>
+            <field name="code">TUITION</field>
+            <field name="category_id" ref="regular_fee_category"/>
+            <field name="name">Tuition Fee</field>
+            <field name="sequence" eval="1"/>
+            <field name="struct_id" ref="fee_structure_semester_001"/>
+        </record>
+        -->
+        
+        
+        <!-- Decimal Precision -->
+        <record forcecreate="True" id="decimal_fee" model="decimal.precision">
+            <field name="name">Fee</field>
+            <field name="digits">2</field>
+        </record>
+
+        <record forcecreate="True" id="decimal_fee_rate" model="decimal.precision">
+            <field name="name">Fee Rate</field>
+            <field name="digits">4</field>
+        </record>
+        
+    </data>
+</odoo>
