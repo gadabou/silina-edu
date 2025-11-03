@@ -41,7 +41,8 @@
         'data/academic_data.xml',
 
         # Views - Separated by model
-        'views/academic_year_views.xml',
+        # Note: classroom_views and student_views must be loaded before academic_year_views
+        # because academic_year_views references their actions
         'views/level_views.xml',
         'views/classroom_views.xml',
         'views/subject_views.xml',
@@ -50,6 +51,7 @@
         'views/student_views.xml',
         'views/parent_views.xml',
         'views/student_document_views.xml',
+        'views/academic_year_views.xml',
         'views/exam_views.xml',
         'views/exam_result_views.xml',
         'views/fee_type_views.xml',
