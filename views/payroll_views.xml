@@ -110,9 +110,9 @@
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
-                        <field name="message_follower_ids"/>
+                        <field name="message_follower_ids" options="{'open_attachments': False}"/>
                         <field name="activity_ids"/>
-                        <field name="message_ids"/>
+                        <field name="message_ids" options="{'open_attachments': False}"/>
                     </div>
                 </form>
             </field>

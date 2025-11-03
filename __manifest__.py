@@ -17,7 +17,6 @@
         * Gestion des documents élèves
         * Passage en masse des élèves en classe supérieure
         * Intégration avec la facturation pour les frais scolaires
-        * Intégration avec Point de Vente pour articles scolaires
     """,
     'author': 'Djakpo GADO',
     'website': 'https://www.silinatech.com',
@@ -25,7 +24,6 @@
     'depends': [
         'base',
         'hr',
-        'point_of_sale',
         'account',
         'mail',
         'web',
