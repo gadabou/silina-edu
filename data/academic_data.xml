@@ -194,10 +194,8 @@
             <field name="name">Frais de scolarité annuels</field>
             <field name="code">SCOL</field>
             <field name="fee_category">tuition</field>
-            <field name="amount">500000</field>
+            <field name="total_amount">500000</field>
             <field name="is_mandatory">True</field>
-            <field name="allow_installment">True</field>
-            <field name="installment_count">3</field>
             <field name="sequence">1</field>
         </record>
 
@@ -205,10 +203,8 @@
             <field name="name">Frais d'inscription</field>
             <field name="code">INSC</field>
             <field name="fee_category">registration</field>
-            <field name="amount">50000</field>
+            <field name="total_amount">50000</field>
             <field name="is_mandatory">True</field>
-            <field name="allow_installment">False</field>
-            <field name="installment_count">1</field>
             <field name="sequence">2</field>
         </record>
 
@@ -216,10 +212,8 @@
             <field name="name">Frais d'examen</field>
             <field name="code">EXAM</field>
             <field name="fee_category">exam</field>
-            <field name="amount">25000</field>
+            <field name="total_amount">25000</field>
             <field name="is_mandatory">True</field>
-            <field name="allow_installment">False</field>
-            <field name="installment_count">1</field>
             <field name="sequence">3</field>
         </record>
 
@@ -227,10 +221,8 @@
             <field name="name">Frais de cantine mensuelle</field>
             <field name="code">CANT</field>
             <field name="fee_category">canteen</field>
-            <field name="amount">30000</field>
+            <field name="total_amount">30000</field>
             <field name="is_mandatory">False</field>
-            <field name="allow_installment">False</field>
-            <field name="installment_count">1</field>
             <field name="sequence">4</field>
         </record>
 
@@ -238,10 +230,8 @@
             <field name="name">Frais de transport mensuel</field>
             <field name="code">TRANS</field>
             <field name="fee_category">transport</field>
-            <field name="amount">20000</field>
+            <field name="total_amount">20000</field>
             <field name="is_mandatory">False</field>
-            <field name="allow_installment">False</field>
-            <field name="installment_count">1</field>
             <field name="sequence">5</field>
         </record>
 
