@@ -41,11 +41,13 @@
         'data/academic_data.xml',
 
         # Reports (loaded before views to allow views to reference report actions)
+        # Note: report_card_template.xml must be loaded before invoice_report_template.xml
+        # because invoice_report_template.xml inherits from report_card_standard_document
+        'reports/report_card_template.xml',
+        'reports/payment_receipt_template.xml',
+        'reports/student_list_template.xml',
         'reports/invoice_report_template.xml',
         'reports/invoice_enhanced_template.xml',
-        'reports/payment_receipt_template.xml',
-        'reports/report_card_template.xml',
-        'reports/student_list_template.xml',
 
         # Views - Separated by model
         # Note: classroom_views and student_views must be loaded before academic_year_views
