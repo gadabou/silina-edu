@@ -2,34 +2,6 @@
 <odoo>
     <data>
 
-        <!-- Vue Liste pour les statistiques par niveau -->
-        <record id="view_dashboard_level_stats_tree" model="ir.ui.view">
-            <field name="name">silina.dashboard.level.stats.list</field>
-            <field name="model">silina.dashboard.level.stats</field>
-            <field name="arch" type="xml">
-                <list string="Statistiques par Niveau" create="false" edit="false" delete="false">
-                    <field name="level_id"/>
-                    <field name="total_students" sum="Total"/>
-                    <field name="male_students" sum="Total Garçons"/>
-                    <field name="female_students" sum="Total Filles"/>
-                </list>
-            </field>
-        </record>
-
-        <!-- Vue Liste pour les statistiques par classe -->
-        <record id="view_dashboard_classroom_stats_tree" model="ir.ui.view">
-            <field name="name">silina.dashboard.classroom.stats.list</field>
-            <field name="model">silina.dashboard.classroom.stats</field>
-            <field name="arch" type="xml">
-                <list string="Statistiques par Classe" create="false" edit="false" delete="false">
-                    <field name="classroom_id"/>
-                    <field name="total_students"/>
-                    <field name="male_students"/>
-                    <field name="female_students"/>
-                </list>
-            </field>
-        </record>
-
         <!-- Vue Formulaire du Tableau de Bord -->
         <record id="view_dashboard_form" model="ir.ui.view">
             <field name="name">silina.dashboard.form</field>
@@ -100,25 +72,25 @@
                         <!-- Statistiques par Niveau -->
                         <notebook>
                             <page string="Par Niveau" name="by_level">
-                                <field name="stats_by_level_ids" nolabel="1" context="{'tree_view_ref': 'silina_edu.view_dashboard_level_stats_tree'}">
-                                    <list string="Statistiques par Niveau" create="false" edit="false" delete="false">
+                                <field name="stats_by_level_ids" nolabel="1">
+                                    <tree string="Statistiques par Niveau" create="false" edit="false" delete="false">
                                         <field name="level_id"/>
                                         <field name="total_students" sum="Total"/>
                                         <field name="male_students" sum="Total Garçons"/>
                                         <field name="female_students" sum="Total Filles"/>
-                                    </list>
+                                    </tree>
                                 </field>
                             </page>
 
                             <!-- Statistiques par Classe -->
                             <page string="Par Classe" name="by_classroom">
-                                <field name="stats_by_classroom_ids" nolabel="1" context="{'tree_view_ref': 'silina_edu.view_dashboard_classroom_stats_tree'}">
-                                    <list string="Statistiques par Classe" create="false" edit="false" delete="false">
+                                <field name="stats_by_classroom_ids" nolabel="1">
+                                    <tree string="Statistiques par Classe" create="false" edit="false" delete="false">
                                         <field name="classroom_id"/>
                                         <field name="total_students"/>
                                         <field name="male_students"/>
                                         <field name="female_students"/>
-                                    </list>
+                                    </tree>
                                 </field>
                             </page>
                         </notebook>

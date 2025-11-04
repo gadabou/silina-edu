@@ -1,9 +1,10 @@
 from odoo import models, fields, api
 
 
-class Dashboard(models.TransientModel):
+class Dashboard(models.Model):
     _name = 'silina.dashboard'
     _description = 'Tableau de Bord Scolaire'
+    _rec_name = 'current_academic_year_id'
 
     # Statistiques générales des élèves
     total_students = fields.Integer(
@@ -68,16 +69,14 @@ class Dashboard(models.TransientModel):
     stats_by_level_ids = fields.One2many(
         'silina.dashboard.level.stats',
         'dashboard_id',
-        string='Statistiques par Niveau',
-        compute='_compute_level_stats'
+        string='Statistiques par Niveau'
     )
 
     # Statistiques par classe
     stats_by_classroom_ids = fields.One2many(
         'silina.dashboard.classroom.stats',
         'dashboard_id',
-        string='Statistiques par Classe',
-        compute='_compute_classroom_stats'
+        string='Statistiques par Classe'
     )
 
     # Statistiques du personnel
@@ -132,8 +131,8 @@ class Dashboard(models.TransientModel):
 
             if record.current_academic_year_id:
                 # Filtrer par année scolaire si disponible
-                domain.append(('invoice_date', '>=', record.current_academic_year_id.start_date))
-                domain.append(('invoice_date', '<=', record.current_academic_year_id.end_date))
+                domain.append(('invoice_date', '>=', record.current_academic_year_id.date_start))
+                domain.append(('invoice_date', '<=', record.current_academic_year_id.date_end))
 
             Invoice = self.env['account.move']
             invoices = Invoice.search(domain)
@@ -169,84 +168,84 @@ class Dashboard(models.TransientModel):
         """Calcul des statistiques de caisse"""
         for record in self:
             # Rechercher les comptes de type liquidity (comptes de banque et caisse)
-            liquidity_accounts = self.env['account.account'].search([
-                ('account_type', '=', 'asset_cash'),
-                ('company_id', '=', self.env.company.id)
-            ])
-
-            # Calculer le solde total
-            cash_balance = 0.0
-            for account in liquidity_accounts:
-                cash_balance += account.current_balance
-
-            record.cash_balance = cash_balance
-
-    @api.depends('current_academic_year_id')
-    def _compute_level_stats(self):
-        """Calcul des statistiques par niveau"""
-        for record in self:
-            # Supprimer les anciennes statistiques
-            record.stats_by_level_ids = [(5, 0, 0)]
-
-            domain = [('active', '=', True)]
-            if record.current_academic_year_id:
-                domain.append(('academic_year_id', '=', record.current_academic_year_id.id))
-
-            # Récupérer tous les niveaux
-            levels = self.env['silina.level'].search([])
-
-            stats_data = []
-            for level in levels:
-                students = self.env['silina.student'].search(
-                    domain + [('level_id', '=', level.id)]
-                )
-
-                if students:
-                    male_count = len(students.filtered(lambda s: s.gender == 'male'))
-                    female_count = len(students.filtered(lambda s: s.gender == 'female'))
-
-                    stats_data.append((0, 0, {
-                        'level_id': level.id,
-                        'total_students': len(students),
-                        'male_students': male_count,
-                        'female_students': female_count,
-                    }))
-
-            record.stats_by_level_ids = stats_data
-
-    @api.depends('current_academic_year_id')
-    def _compute_classroom_stats(self):
-        """Calcul des statistiques par classe"""
-        for record in self:
-            # Supprimer les anciennes statistiques
-            record.stats_by_classroom_ids = [(5, 0, 0)]
-
-            domain = []
-            if record.current_academic_year_id:
-                domain.append(('academic_year_id', '=', record.current_academic_year_id.id))
-
-            # Récupérer toutes les classes
-            classrooms = self.env['silina.classroom'].search(domain)
-
-            stats_data = []
-            for classroom in classrooms:
-                students = self.env['silina.student'].search([
-                    ('classroom_id', '=', classroom.id),
-                    ('active', '=', True)
+            try:
+                liquidity_accounts = self.env['account.account'].search([
+                    ('account_type', '=', 'asset_cash')
                 ])
 
-                if students:
-                    male_count = len(students.filtered(lambda s: s.gender == 'male'))
-                    female_count = len(students.filtered(lambda s: s.gender == 'female'))
+                # Calculer le solde total
+                cash_balance = 0.0
+                for account in liquidity_accounts:
+                    if hasattr(account, 'current_balance'):
+                        cash_balance += account.current_balance
+                    elif hasattr(account, 'balance'):
+                        cash_balance += account.balance
 
-                    stats_data.append((0, 0, {
-                        'classroom_id': classroom.id,
-                        'total_students': len(students),
-                        'male_students': male_count,
-                        'female_students': female_count,
-                    }))
+                record.cash_balance = cash_balance
+            except Exception:
+                # En cas d'erreur, mettre le solde à 0
+                record.cash_balance = 0.0
 
-            record.stats_by_classroom_ids = stats_data
+    def _generate_level_stats(self):
+        """Génère les statistiques par niveau"""
+        self.ensure_one()
+        # Supprimer les anciennes statistiques
+        self.stats_by_level_ids.unlink()
+
+        domain = [('active', '=', True)]
+        if self.current_academic_year_id:
+            domain.append(('academic_year_id', '=', self.current_academic_year_id.id))
+
+        # Récupérer tous les niveaux
+        levels = self.env['silina.level'].search([])
+
+        for level in levels:
+            students = self.env['silina.student'].search(
+                domain + [('level_id', '=', level.id)]
+            )
+
+            if students:
+                male_count = len(students.filtered(lambda s: s.gender == 'male'))
+                female_count = len(students.filtered(lambda s: s.gender == 'female'))
+
+                self.env['silina.dashboard.level.stats'].create({
+                    'dashboard_id': self.id,
+                    'level_id': level.id,
+                    'total_students': len(students),
+                    'male_students': male_count,
+                    'female_students': female_count,
+                })
+
+    def _generate_classroom_stats(self):
+        """Génère les statistiques par classe"""
+        self.ensure_one()
+        # Supprimer les anciennes statistiques
+        self.stats_by_classroom_ids.unlink()
+
+        domain = []
+        if self.current_academic_year_id:
+            domain.append(('academic_year_id', '=', self.current_academic_year_id.id))
+
+        # Récupérer toutes les classes
+        classrooms = self.env['silina.classroom'].search(domain)
+
+        for classroom in classrooms:
+            students = self.env['silina.student'].search([
+                ('classroom_id', '=', classroom.id),
+                ('active', '=', True)
+            ])
+
+            if students:
+                male_count = len(students.filtered(lambda s: s.gender == 'male'))
+                female_count = len(students.filtered(lambda s: s.gender == 'female'))
+
+                self.env['silina.dashboard.classroom.stats'].create({
+                    'dashboard_id': self.id,
+                    'classroom_id': classroom.id,
+                    'total_students': len(students),
+                    'male_students': male_count,
+                    'female_students': female_count,
+                })
 
     def _compute_staff_stats(self):
         """Calcul des statistiques du personnel"""
@@ -263,6 +262,20 @@ class Dashboard(models.TransientModel):
             departments = self.env['hr.department'].search([])
             record.total_departments = len(departments)
 
+    @api.model
+    def get_dashboard(self):
+        """Récupère ou crée le tableau de bord pour l'année scolaire courante"""
+        current_year = self.env['silina.academic.year'].get_current_year()
+        dashboard = self.search([('current_academic_year_id', '=', current_year.id)], limit=1)
+
+        if not dashboard:
+            dashboard = self.create({
+                'current_academic_year_id': current_year.id,
+            })
+            dashboard.action_refresh()
+
+        return dashboard
+
     def action_refresh(self):
         """Rafraîchir les statistiques"""
         self.ensure_one()
@@ -270,9 +283,12 @@ class Dashboard(models.TransientModel):
         self._compute_student_stats()
         self._compute_financial_stats()
         self._compute_cash_stats()
-        self._compute_level_stats()
-        self._compute_classroom_stats()
         self._compute_staff_stats()
+
+        # Générer les statistiques par niveau et classe
+        self._generate_level_stats()
+        self._generate_classroom_stats()
+
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
@@ -285,24 +301,24 @@ class Dashboard(models.TransientModel):
         }
 
 
-class DashboardLevelStats(models.TransientModel):
+class DashboardLevelStats(models.Model):
     _name = 'silina.dashboard.level.stats'
     _description = 'Statistiques par Niveau'
     _order = 'level_id'
 
-    dashboard_id = fields.Many2one('silina.dashboard', string='Tableau de bord')
+    dashboard_id = fields.Many2one('silina.dashboard', string='Tableau de bord', ondelete='cascade')
     level_id = fields.Many2one('silina.level', string='Niveau', required=True)
     total_students = fields.Integer(string='Total Élèves')
     male_students = fields.Integer(string='Garçons')
     female_students = fields.Integer(string='Filles')
 
 
-class DashboardClassroomStats(models.TransientModel):
+class DashboardClassroomStats(models.Model):
     _name = 'silina.dashboard.classroom.stats'
     _description = 'Statistiques par Classe'
     _order = 'classroom_id'
 
-    dashboard_id = fields.Many2one('silina.dashboard', string='Tableau de bord')
+    dashboard_id = fields.Many2one('silina.dashboard', string='Tableau de bord', ondelete='cascade')
     classroom_id = fields.Many2one('silina.classroom', string='Classe', required=True)
     total_students = fields.Integer(string='Total Élèves')
     male_students = fields.Integer(string='Garçons')
