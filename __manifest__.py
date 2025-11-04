@@ -50,6 +50,7 @@
         # Views - Separated by model
         # Note: classroom_views and student_views must be loaded before academic_year_views
         # because academic_year_views references their actions
+        'views/dashboard_views.xml',
         'views/level_views.xml',
         'views/classroom_views.xml',
         'views/subject_views.xml',

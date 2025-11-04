@@ -8,6 +8,13 @@
             sequence="10"
             web_icon="silina_edu,static/description/icon.png"/>
 
+        <!-- Tableau de Bord -->
+        <menuitem id="menu_dashboard"
+            name="Tableau de Bord"
+            parent="menu_silina_edu_root"
+            action="action_dashboard"
+            sequence="5"/>
+
         <!-- Configuration -->
         <menuitem id="menu_silina_edu_configuration"
             name="Configuration"

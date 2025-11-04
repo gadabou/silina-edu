@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vue Formulaire du Tableau de Bord -->
+        <record id="view_dashboard_form" model="ir.ui.view">
+            <field name="name">silina.dashboard.form</field>
+            <field name="model">silina.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="Tableau de Bord" create="false" edit="false" delete="false">
+                    <header>
+                        <button name="action_refresh" string="Actualiser" type="object" class="btn-primary"/>
+                        <field name="current_academic_year_id" widget="selection" options="{'no_create': True, 'no_open': True}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <i class="fa fa-dashboard"/> Tableau de Bord Scolaire
+                            </h1>
+                        </div>
+
+                        <!-- Statistiques des Élèves -->
+                        <group string="📊 Statistiques des Élèves">
+                            <group>
+                                <field name="total_students" widget="statinfo" string="Total Élèves"/>
+                                <field name="enrolled_students" widget="statinfo" string="Inscrits"/>
+                            </group>
+                            <group>
+                                <field name="male_students" widget="statinfo" string="Garçons"/>
+                                <field name="female_students" widget="statinfo" string="Filles"/>
+                            </group>
+                        </group>
+
+                        <separator/>
+
+                        <!-- Statistiques Financières -->
+                        <group string="💰 Statistiques Financières">
+                            <group>
+                                <field name="total_expected_amount" widget="monetary"/>
+                                <field name="total_paid_amount" widget="monetary"/>
+                                <field name="total_debt_amount" widget="monetary" class="text-danger"/>
+                            </group>
+                            <group>
+                                <field name="payment_rate" widget="percentage"/>
+                                <field name="total_students_with_debt" widget="statinfo" string="Élèves Débiteurs"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+
+                        <separator/>
+
+                        <!-- Statistiques du Personnel -->
+                        <group string="👥 Statistiques du Personnel">
+                            <group>
+                                <field name="total_teachers" widget="statinfo" string="Enseignants"/>
+                                <field name="total_employees" widget="statinfo" string="Employés"/>
+                            </group>
+                            <group>
+                                <field name="total_departments" widget="statinfo" string="Départements"/>
+                            </group>
+                        </group>
+
+                        <separator/>
+
+                        <!-- Trésorerie -->
+                        <group string="🏦 Trésorerie">
+                            <field name="cash_balance" widget="monetary" class="oe_subtotal_footer_separator" style="font-size: 18px; font-weight: bold;"/>
+                        </group>
+
+                        <separator/>
+
+                        <!-- Statistiques par Niveau -->
+                        <notebook>
+                            <page string="Par Niveau" name="by_level">
+                                <field name="stats_by_level_ids" nolabel="1">
+                                    <tree string="Statistiques par Niveau" create="false" edit="false" delete="false">
+                                        <field name="level_id"/>
+                                        <field name="total_students" sum="Total"/>
+                                        <field name="male_students" sum="Total Garçons"/>
+                                        <field name="female_students" sum="Total Filles"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <!-- Statistiques par Classe -->
+                            <page string="Par Classe" name="by_classroom">
+                                <field name="stats_by_classroom_ids" nolabel="1">
+                                    <tree string="Statistiques par Classe" create="false" edit="false" delete="false">
+                                        <field name="classroom_id"/>
+                                        <field name="total_students"/>
+                                        <field name="male_students"/>
+                                        <field name="female_students"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action du Tableau de Bord -->
+        <record id="action_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord</field>
+            <field name="res_model">silina.dashboard</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+            <field name="context">{}</field>
+        </record>
+
+    </data>
+</odoo>
