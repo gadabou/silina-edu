@@ -2,35 +2,19 @@
 <odoo>
     <data noupdate="1">
 
-        <!-- Niveaux Crèche -->
-        <record id="level_daycare" model="silina.level">
-            <field name="name">Crèche</field>
-            <field name="code">Crèche</field>
-            <field name="degree">Crèche</field>
-            <field name="sequence">1</field>
-        </record>
-
-        <!-- Niveaux Préscolaire -->
-        <record id="level_preschool" model="silina.level">
-            <field name="name">Préscolaire</field>
-            <field name="code">Préscolaire</field>
-            <field name="degree">Préscolaire</field>
-            <field name="sequence">2</field>
-        </record>
-
         <!-- Niveaux Primaire -->
         <record id="level_cp1" model="silina.level">
             <field name="name">CP1</field>
             <field name="code">CP1</field>
             <field name="degree">primary</field>
-            <field name="sequence">3</field>
+            <field name="sequence">1</field>
         </record>
 
         <record id="level_cp2" model="silina.level">
             <field name="name">CP2</field>
             <field name="code">CP2</field>
             <field name="degree">primary</field>
-            <field name="sequence">4</field>
+            <field name="sequence">2</field>
             <field name="next_level_id" ref="level_cp1"/>
         </record>
 
@@ -38,7 +22,7 @@
             <field name="name">CE1</field>
             <field name="code">CE1</field>
             <field name="degree">primary</field>
-            <field name="sequence">5</field>
+            <field name="sequence">3</field>
             <field name="next_level_id" ref="level_cp2"/>
         </record>
 
@@ -46,7 +30,7 @@
             <field name="name">CE2</field>
             <field name="code">CE2</field>
             <field name="degree">primary</field>
-            <field name="sequence">6</field>
+            <field name="sequence">4</field>
             <field name="next_level_id" ref="level_ce1"/>
         </record>
 
@@ -54,7 +38,7 @@
             <field name="name">CM1</field>
             <field name="code">CM1</field>
             <field name="degree">primary</field>
-            <field name="sequence">7</field>
+            <field name="sequence">5</field>
             <field name="next_level_id" ref="level_ce2"/>
         </record>
 
@@ -62,7 +46,7 @@
             <field name="name">CM2</field>
             <field name="code">CM2</field>
             <field name="degree">primary</field>
-            <field name="sequence">8</field>
+            <field name="sequence">6</field>
             <field name="next_level_id" ref="level_cm1"/>
         </record>
 
@@ -71,7 +55,7 @@
             <field name="name">6ème</field>
             <field name="code">6EME</field>
             <field name="degree">middle</field>
-            <field name="sequence">9</field>
+            <field name="sequence">7</field>
             <field name="next_level_id" ref="level_cm2"/>
         </record>
 
@@ -79,7 +63,7 @@
             <field name="name">5ème</field>
             <field name="code">5EME</field>
             <field name="degree">middle</field>
-            <field name="sequence">10</field>
+            <field name="sequence">8</field>
             <field name="next_level_id" ref="level_6eme"/>
         </record>
 
@@ -87,7 +71,7 @@
             <field name="name">4ème</field>
             <field name="code">4EME</field>
             <field name="degree">middle</field>
-            <field name="sequence">11</field>
+            <field name="sequence">9</field>
             <field name="next_level_id" ref="level_5eme"/>
         </record>
 
@@ -95,7 +79,7 @@
             <field name="name">3ème</field>
             <field name="code">3EME</field>
             <field name="degree">middle</field>
-            <field name="sequence">12</field>
+            <field name="sequence">10</field>
             <field name="next_level_id" ref="level_4eme"/>
         </record>
 
@@ -104,7 +88,7 @@
             <field name="name">2nde</field>
             <field name="code">2NDE</field>
             <field name="degree">high</field>
-            <field name="sequence">13</field>
+            <field name="sequence">11</field>
             <field name="next_level_id" ref="level_3eme"/>
         </record>
 
@@ -112,7 +96,7 @@
             <field name="name">1ère</field>
             <field name="code">1ERE</field>
             <field name="degree">high</field>
-            <field name="sequence">14</field>primary
+            <field name="sequence">12</field>
             <field name="next_level_id" ref="level_2nde"/>
         </record>
 
@@ -120,7 +104,7 @@
             <field name="name">Terminale</field>
             <field name="code">TLE</field>
             <field name="degree">high</field>
-            <field name="sequence">15</field>
+            <field name="sequence">13</field>
             <field name="next_level_id" ref="level_1ere"/>
         </record>
 
