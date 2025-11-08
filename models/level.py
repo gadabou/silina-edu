@@ -14,6 +14,8 @@ class Level(models.Model):
     code = fields.Char(string='Code', required=True)
 
     degree = fields.Selection([
+        ('daycare', 'Crèche'),
+        ('preschool', 'Préscolaire'),
         ('primary', 'Primaire'),
         ('middle', 'Collège'),
         ('high', 'Lycée'),
